@@ -1,20 +1,22 @@
 import numpy as np
 
-lexema = ''
 with open('exemplo01.txt', 'r') as arquivo:
     palavra = arquivo.read()
 
 tokens = []
 lexemas = []
 
+lexema = ''
 espacos = [' ', '\n', '\t', '\r']
 parentizacao = ['{', '}', '(', ')', '[', ']']
 
 literalLimiter = False;
 charLimiter = False;
 strLimiter = False;
+numLimiter = False;
 
 for i in range(len(palavra)):
+
     if palavra[i] == '_':
         if literalLimiter:
             lexema = lexema + palavra[i]
@@ -28,6 +30,7 @@ for i in range(len(palavra)):
         else:
             lexema = lexema + palavra[i]
             literalLimiter = True
+
     elif palavra[i] == '"':
         if strLimiter:
             lexema = lexema + palavra[i]
@@ -41,6 +44,7 @@ for i in range(len(palavra)):
         else:
             lexema = lexema + palavra[i]
             strLimiter = True
+
     elif palavra[i] == "'":
         if charLimiter:
             if len(lexema) > 2:
@@ -58,6 +62,34 @@ for i in range(len(palavra)):
         else:
             lexema = lexema + palavra[i]
             charLimiter = True
+
+    elif palavra[i].isdigit():
+        if numLimiter:
+            if palavra[i+1].isdigit() or (palavra[i+1] == '.' and '.' not in lexema):
+                lexema = lexema + palavra[i]
+            else:
+                lexema = lexema + palavra[i]
+                if '.' in lexema:
+                    parts = lexema.split('.')
+                    if len(parts[0]) > 5 or len(parts[1]) > 2:
+                        print('Erro: Número real inválido')
+                        break
+                    else:
+                        tokens.append(36)
+                else:
+                    if len(lexema) > 5:
+                        print('Erro: Número inteiro inválido')
+                        break
+                    else:
+                        tokens.append(37)
+                lexemas.append(lexema)
+                print(lexema)
+                lexema = ''
+                numLimiter = False
+        else:
+            lexema = lexema + palavra[i]
+            numLimiter = True
+
     elif (palavra[i] not in espacos) or literalLimiter or charLimiter or strLimiter:
         lexema = lexema + palavra[i]
         
@@ -260,24 +292,7 @@ for i in range(len(palavra)):
         tokens.append(17)
         lexemas.append(lexema)
         
-    elif lexema == 'numreal':
-        tokens.append(36)
-        lexemas.append(lexema)
-        
-    elif lexema == 'numinteiro':
-        tokens.append(37)
-        lexemas.append(lexema)
-        
-    elif lexema == 'numreal':
-        tokens.append(36)
-        lexemas.append(lexema)
-        
-    elif lexema == 'numinteiro':
-        tokens.append(37)
-        lexemas.append(lexema)
-        
 for i in range(0,len(tokens)):
     print('Token: '+str(tokens[i]) + ' - Lexema: '+str(lexemas[i]) + ' - Linha: 1' )
 
 tokens = np.array(tokens)
-
