@@ -112,130 +112,140 @@ for i in range(len(palavra)):
         
     print(lexema)
     
-    if lexema == 'write':
-        tokens.append(0)
-        lines.append(currentLine)
-        lexemas.append(lexema)
+    if lexema.isidentifier():
+
+        if lexema == 'write':
+            tokens.append(0)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'while':
+            tokens.append(1)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'until':
+            tokens.append(2)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'to':
+            tokens.append(3)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'then':
+            tokens.append(4) 
+            lines.append(currentLine)   
+            lexemas.append(lexema)
+            
+        elif lexema == 'string':
+            tokens.append(5)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'repeat':
+            tokens.append(6)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'real':
+            tokens.append(7)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'read':
+            tokens.append(8)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'program':
+            tokens.append(9)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'procedure':
+            tokens.append(10)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'or':
+            tokens.append(11)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'of':
+            tokens.append(12)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'integer':
+            tokens.append(14)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'if':
+            tokens.append(15)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'for':
+            tokens.append(18)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'end':
+            tokens.append(19)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'else':
+            tokens.append(20)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'do':
+            tokens.append(21)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'declaravariaveis':
+            tokens.append(22)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'const':
+            tokens.append(23)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'char':
+            tokens.append(24)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'chamaprocedure':
+            tokens.append(25)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'begin':
+            tokens.append(26)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            
+        elif lexema == 'array':
+            tokens.append(27)
+            lines.append(currentLine)
+            lexemas.append(lexema)
         
-    elif lexema == 'while':
-        tokens.append(1)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'until':
-        tokens.append(2)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'to':
-        tokens.append(3)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'then':
-        tokens.append(4) 
-        lines.append(currentLine)   
-        lexemas.append(lexema)
-        
-    elif lexema == 'string':
-        tokens.append(5)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'repeat':
-        tokens.append(6)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'real':
-        tokens.append(7)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'read':
-        tokens.append(8)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'program':
-        tokens.append(9)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'procedure':
-        tokens.append(10)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'or':
-        tokens.append(11)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'of':
-        tokens.append(12)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'integer':
-        tokens.append(14)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'if':
-        tokens.append(15)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'for':
-        tokens.append(18)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'end':
-        tokens.append(19)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'else':
-        tokens.append(20)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'do':
-        tokens.append(21)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'declaravariaveis':
-        tokens.append(22)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'const':
-        tokens.append(23)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'char':
-        tokens.append(24)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'chamaprocedure':
-        tokens.append(25)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'begin':
-        tokens.append(26)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    elif lexema == 'array':
-        tokens.append(27)
-        lines.append(currentLine)
-        lexemas.append(lexema)
+        else:
+            if palavra[i+1] in espacos:
+                print('aqui identificador', lexema)
+                tokens.append(16)
+                lines.append(currentLine)
+                lexemas.append(lexema)
+
         
     elif lexema == 'and':
         tokens.append(28)
@@ -334,13 +344,6 @@ for i in range(len(palavra)):
         
     elif lexema == '-':
         tokens.append(52)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-        
-    # confirmar
-        
-    elif lexema == 'identificador':
-        tokens.append(16)
         lines.append(currentLine)
         lexemas.append(lexema)
         
