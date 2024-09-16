@@ -1,1 +1,1 @@
-program identificador ; 2134 begin "jjjj1"; end  .
+program on23 identificador ; s23 12.12 2134 s23 begin "jjjj1"; end  .

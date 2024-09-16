@@ -15,6 +15,7 @@ literalLimiter = False;
 charLimiter = False;
 strLimiter = False;
 numLimiter = False;
+isIdentifier = False;
 
 for i in range(len(palavra)):
     if palavra[i] == '\n':
@@ -71,8 +72,9 @@ for i in range(len(palavra)):
         else:
             lexema = lexema + palavra[i]
             charLimiter = True
-
-    elif palavra[i].isdigit():
+    
+    elif palavra[i].isdigit() and (lexema.isnumeric() or '.' in lexema):
+     
         if numLimiter:
             if palavra[i+1].isdigit() or (palavra[i+1] == '.' and '.' not in lexema):
                 lexema = lexema + palavra[i]
@@ -241,7 +243,6 @@ for i in range(len(palavra)):
         
         else:
             if palavra[i+1] in espacos:
-                print('aqui identificador', lexema)
                 tokens.append(16)
                 lines.append(currentLine)
                 lexemas.append(lexema)
