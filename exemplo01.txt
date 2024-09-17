@@ -1,1 +1,1 @@
-program identificador ; 2134 begin "jjjj1"; end  .
+program programa ; 2134 begin "jjjj1"; end  .
