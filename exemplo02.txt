@@ -1,1 +1,9 @@
-program identificador ; 2134 begin "jjjj1"; end  .
+program exemploRepeat ;
+declaravariaveis contador : integer ;
+begin
+  contador := 0;
+  repeat
+    write(_Contador: _, contador) ;
+    contador := contador + 1 ;
+  until [contador = 5] ;
+end .

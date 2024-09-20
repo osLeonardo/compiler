@@ -1,1 +1,12 @@
-program identificador ; 2134 begin "jjjj1"; end  .
+program exemploWhile ;
+declaravariaveis contador : integer ;
+begin
+  contador := 0 ;
+  while [contador < 5] do begin
+    write(_Contador: _, contador) ;
+    contador := contador + 1 ;
+  end 
+  else begin 
+    write(_Contato é igual a 5_) ;
+  end ;
+end .

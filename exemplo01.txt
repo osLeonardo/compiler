@@ -1,1 +1,9 @@
-program programa ; 2134 begin "jjjj1" ; end  .
+program exemploFor ;
+declaravariaveis i : integer ;
+const limite = integer ;
+begin
+  limite := 10
+  for [i = 1] to [limite] do begin
+    write(_Valor de i: _, i) ;
+  end ;
+end .
