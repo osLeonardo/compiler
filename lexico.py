@@ -7,7 +7,7 @@ tokens = []
 lexemas = []
 lines = []
 espacos = [' ', '\n', '\t', '\r']
-simbolos = ['{', '}', '(', ')', '[', ']', '-', '+', '*', '/', '=', '<', '>', '.', ',', ';', ':']
+simbolos = ['>=', '>', '=', '<>', '<=', '<', '+', ']', '[', ';', ':', '/', '..', '.', ',', '*', ')', '(', '-']
 reservados = ['write', 'while', 'until', 'to', 'then', 'string', 'repeat', 'real', 'read', 'program',
               'procedure', 'or', 'of', 'integer', 'if', 'for', 'end', 'else', 'do', 'declaravariaveis',
               'const', 'char', 'chamaprocedure', 'begin', 'array', 'and']
@@ -24,7 +24,7 @@ numLimiter = False;
 for i in range(len(palavra)):
     if palavra[i] == '\n':
         currentLine += 1
-        lineComment = False;
+        lineComment = False
 
     elif palavra[i] == '_':
         if literalLimiter:
@@ -111,256 +111,50 @@ for i in range(len(palavra)):
             numLimiter = True
 
     elif palavra[i].isalpha():
-        lexema = lexema + palavra[i]        
-        
-        if lexema in reservados and palavra[i+1] in espacos:
-            continue
-            
+        lexema = lexema + palavra[i]
+
+        if lexema in reservados and (palavra[i+1] in espacos or palavra[i+1] in simbolos):
+            tokens.append(reservados.index(lexema))
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            print(lexema)
+            lexema = ''
+
         elif len(lexema) > 10:
             print(f'Erro: Identificador não pode ter mais de 10 caracteres. Linha: {currentLine}')
             break
-        
-        elif palavra[i+1] in espacos:
+
+        elif palavra[i+1] in espacos or palavra[i+1] in simbolos:
             tokens.append(16)
             lines.append(currentLine)
             lexemas.append(lexema)
             print(lexema)
             lexema = ''
-    
-    elif (palavra[i] not in espacos) or literalLimiter or charLimiter or strLimiter:
-        lexema = lexema + palavra[i]
-    
-    else:
+
+    elif palavra[i] in simbolos:
+        if lexema:
+            if lexema in reservados:
+                tokens.append(reservados.index(lexema))
+            else:
+                tokens.append(16)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            lexema = ''
+
+        tokens.append(simbolos.index(palavra[i]) + 29)
+        lines.append(currentLine)
+        lexemas.append(palavra[i])
         lexema = ''
-    
-    print(lexema)
-    
-    if lexema == 'write':
-        tokens.append(0)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'while':
-        tokens.append(1)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'until':
-        tokens.append(2)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'to':
-        tokens.append(3)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'then':
-        tokens.append(4) 
-        lines.append(currentLine)   
-        lexemas.append(lexema)
-    
-    elif lexema == 'string':
-        tokens.append(5)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'repeat':
-        tokens.append(6)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'real':
-        tokens.append(7)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'read':
-        tokens.append(8)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'program':
-        tokens.append(9)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'procedure':
-        tokens.append(10)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'or':
-        tokens.append(11)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'of':
-        tokens.append(12)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'integer':
-        tokens.append(14)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'if':
-        tokens.append(15)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'for':
-        tokens.append(18)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'end':
-        tokens.append(19)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'else':
-        tokens.append(20)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'do':
-        tokens.append(21)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'declaravariaveis':
-        tokens.append(22)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'const':
-        tokens.append(23)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'char':
-        tokens.append(24)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'chamaprocedure':
-        tokens.append(25)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'begin':
-        tokens.append(26)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'array':
-        tokens.append(27)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == 'and':
-        tokens.append(28)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    # TODO: checkar simbolos na parte superior do código similar as aspas
-    
-    elif lexema == '>=':
-        tokens.append(29)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '>':
-        tokens.append(30)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '=':
-        tokens.append(31)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '<>':
-        tokens.append(32)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '<=':
-        tokens.append(33)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '<':
-        tokens.append(34)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '+':
-        tokens.append(35)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == ']':
-        tokens.append(40)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '[':
-        tokens.append(41)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == ';':
-        tokens.append(42)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == ':':
-        tokens.append(43)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '/':
-        tokens.append(44)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '..':
-        tokens.append(45)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '.':
-        tokens.append(46)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == ',':
-        tokens.append(47)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '*':
-        tokens.append(48)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == ')':
-        tokens.append(49)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '(':
-        tokens.append(50)
-        lines.append(currentLine)
-        lexemas.append(lexema)
-    
-    elif lexema == '-':
-        tokens.append(52)
-        lines.append(currentLine)
-        lexemas.append(lexema)
+
+    elif palavra[i] in espacos:
+        if lexema:
+            if lexema in reservados:
+                tokens.append(reservados.index(lexema))
+            else:
+                tokens.append(16)
+            lines.append(currentLine)
+            lexemas.append(lexema)
+            lexema = ''
 
 for i in range(0,len(tokens)):
     print('Token: '+str(tokens[i]) + ' - Lexema: '+str(lexemas[i]) + ' - Linha: ' +str(lines[i]))
