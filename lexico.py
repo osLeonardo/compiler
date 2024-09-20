@@ -22,7 +22,24 @@ strLimiter = False
 numLimiter = False
 
 for i in range(len(palavra)):
-    if palavra[i] == '\n':
+    if lineComment or blockComment:
+        if lineComment and palavra[i] == '\n':
+            lineComment = False
+            currentLine += 1
+        elif blockComment and palavra[i:i+2] == '*/':
+            blockComment = False
+            i += 1
+        continue
+
+    if palavra[i:i+2] == '//':
+        lineComment = True
+        i += 1
+
+    elif palavra[i:i+2] == '/*':
+        blockComment = True
+        i += 1
+
+    elif palavra[i] == '\n':
         currentLine += 1
         lineComment = False
 
