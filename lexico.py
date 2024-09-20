@@ -14,12 +14,12 @@ reservados = ['write', 'while', 'until', 'to', 'then', 'string', 'repeat', 'real
 
 lexema = ''
 currentLine = 1
-lineComment = False;
-blockComment = False;
-literalLimiter = False;
-charLimiter = False;
-strLimiter = False;
-numLimiter = False;
+lineComment = False
+blockComment = False
+literalLimiter = False
+charLimiter = False
+strLimiter = False
+numLimiter = False
 
 for i in range(len(palavra)):
     if palavra[i] == '\n':
@@ -35,7 +35,6 @@ for i in range(len(palavra)):
             strLimiter = False
             charLimiter = False
             literalLimiter = False
-            print(lexema)
             lexema = ''
         else:
             lexema = lexema + palavra[i]
@@ -53,7 +52,6 @@ for i in range(len(palavra)):
             strLimiter = False
             charLimiter = False
             literalLimiter = False
-            print(lexema)
             lexema = ''
         else:
             lexema = lexema + palavra[i]
@@ -72,7 +70,6 @@ for i in range(len(palavra)):
                 strLimiter = False
                 charLimiter = False
                 literalLimiter = False
-                print(lexema)
                 lexema = ''
         else:
             lexema = lexema + palavra[i]
@@ -103,7 +100,6 @@ for i in range(len(palavra)):
                         tokens.append(37)
                         lines.append(currentLine)
                 lexemas.append(lexema)
-                print(lexema)
                 lexema = ''
                 numLimiter = False
         else:
@@ -117,7 +113,6 @@ for i in range(len(palavra)):
             tokens.append(reservados.index(lexema))
             lines.append(currentLine)
             lexemas.append(lexema)
-            print(lexema)
             lexema = ''
 
         elif len(lexema) > 10:
@@ -128,7 +123,6 @@ for i in range(len(palavra)):
             tokens.append(16)
             lines.append(currentLine)
             lexemas.append(lexema)
-            print(lexema)
             lexema = ''
 
     elif palavra[i] in simbolos:
