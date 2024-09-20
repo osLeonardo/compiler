@@ -7,7 +7,7 @@ tokens = []
 lexemas = []
 lines = []
 espacos = [' ', '\n', '\t', '\r']
-parentizacao = ['{', '}', '(', ')', '[', ']']
+simbolos = ['{', '}', '(', ')', '[', ']', '-', '+', '*', '/', '=', '<', '>', '.', ',', ';', ':']
 reservados = ['write', 'while', 'until', 'to', 'then', 'string', 'repeat', 'real', 'read', 'program',
               'procedure', 'or', 'of', 'integer', 'if', 'for', 'end', 'else', 'do', 'declaravariaveis',
               'const', 'char', 'chamaprocedure', 'begin', 'array', 'and']
@@ -23,7 +23,8 @@ numLimiter = False;
 
 for i in range(len(palavra)):
     if palavra[i] == '\n':
-        currentLine += 1        
+        currentLine += 1
+        lineComment = False;
 
     elif palavra[i] == '_':
         if literalLimiter:
