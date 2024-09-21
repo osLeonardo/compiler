@@ -59,8 +59,8 @@ for i in range(len(palavra)):
 
     elif palavra[i] == '"':
         if strLimiter:
-            if len(lexema) > 11:
-                print(f'Erro: String não pode ter mais de 10 caracteres. Linha: {currentLine}')
+            if len(lexema) > 21:
+                print(f'Erro: String não pode ter mais de 20 caracteres. Linha: {currentLine}')
                 break
             lexema = lexema + palavra[i]
             tokens.append(38)
@@ -132,8 +132,8 @@ for i in range(len(palavra)):
             lexemas.append(lexema)
             lexema = ''
 
-        elif len(lexema) > 10:
-            print(f'Erro: Identificador não pode ter mais de 10 caracteres. Linha: {currentLine}')
+        elif len(lexema) > 20:
+            print(f'Erro: Identificador não pode ter mais de 20 caracteres. Linha: {currentLine}')
             break
 
         elif palavra[i+1] in espacos or palavra[i+1] in simbolos:

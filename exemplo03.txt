@@ -1,12 +1,15 @@
-program exemploWhile ;
-declaravariaveis contador : integer ;
+program exemploWhile;
+declaravariaveis contador : integer;
+declaravariaveis arrayCount : array [0 .. 4] of integer;
 begin
-  contador := 0 ;
+  procedure meuProcedure begin write(_Procedure chamada!_); end;
+  contador = 0;
   while [contador < 5] do begin
-    write(_Contador: _, contador) ;
-    contador := contador + 1 ;
+    write(_Contador: _, contador);
+    contador = contador + 1;
   end 
   else begin 
-    write(_Contato é igual a 5_) ;
-  end ;
-end .
+    write(_Contato é igual a 5_);
+    chamaprocedure meuProcedure();
+  end;
+end.
