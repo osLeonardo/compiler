@@ -21,6 +21,8 @@ charLimiter = False
 strLimiter = False
 numLimiter = False
 
+catchError = ''
+
 for i in range(len(palavra)):
     if lineComment or blockComment:
         if lineComment and palavra[i] == '\n':
@@ -45,7 +47,6 @@ for i in range(len(palavra)):
 
     elif palavra[i] == '_':
         if literalLimiter:
-            lexema = lexema + palavra[i]
             tokens.append(13)
             lines.append(currentLine)
             lexemas.append(lexema)
@@ -53,16 +54,14 @@ for i in range(len(palavra)):
             charLimiter = False
             literalLimiter = False
             lexema = ''
-        else:
-            lexema = lexema + palavra[i]
+        else: 
             literalLimiter = True
 
     elif palavra[i] == '"':
         if strLimiter:
             if len(lexema) > 21:
-                print(f'Erro: String não pode ter mais de 20 caracteres. Linha: {currentLine}')
+                catchError = f'Erro: String não pode ter mais de 20 caracteres. Linha: {currentLine}'
                 break
-            lexema = lexema + palavra[i]
             tokens.append(38)
             lines.append(currentLine)
             lexemas.append(lexema)
@@ -71,16 +70,14 @@ for i in range(len(palavra)):
             literalLimiter = False
             lexema = ''
         else:
-            lexema = lexema + palavra[i]
             strLimiter = True
 
     elif palavra[i] == "'":
         if charLimiter:
             if len(lexema) > 2:
-                print(f'Erro: Char não pode ter mais de um caractere. Linha: {currentLine}')
+                catchError = f'Erro: Char não pode ter mais de um caractere. Linha: {currentLine}'
                 break
             else:
-                lexema = lexema + palavra[i]
                 tokens.append(39)
                 lines.append(currentLine)
                 lexemas.append(lexema)
@@ -89,7 +86,6 @@ for i in range(len(palavra)):
                 literalLimiter = False
                 lexema = ''
         else:
-            lexema = lexema + palavra[i]
             charLimiter = True
 
     elif palavra[i].isdigit():
@@ -101,17 +97,17 @@ for i in range(len(palavra)):
                 if '.' in lexema:
                     parts = lexema.split('.')
                     if len(parts[0]) > 5:
-                        print(f'Erro: Número real não pode conter mais de 5 dígitos antes do divisor. Linha: {currentLine}')
+                        catchError = f'Erro: Número real não pode conter mais de 5 dígitos antes do divisor. Linha: {currentLine}'
                         break
                     elif len(parts[1]) > 2:
-                        print(f'Erro: Número real não pode conter mais de 2 dígitos após do divisor. Linha: {currentLine}')
+                        catchError = f'Erro: Número real não pode conter mais de 2 dígitos após do divisor. Linha: {currentLine}'
                         break
                     else:
                         tokens.append(36)
                         lines.append(currentLine)
                 else:
                     if len(lexema) > 5:
-                        print(f'Erro: Número inteiro não pode conter mais de 5 dígitos. Linha: {currentLine}')
+                        catchError = f'Erro: Número inteiro não pode conter mais de 5 dígitos. Linha: {currentLine}'
                         break
                     else:
                         tokens.append(37)
@@ -125,15 +121,16 @@ for i in range(len(palavra)):
 
     elif palavra[i].isalpha():
         lexema = lexema + palavra[i]
-
-        if lexema in reservados and (palavra[i+1] in espacos or palavra[i+1] in simbolos):
+        if charLimiter or strLimiter or literalLimiter:
+            continue
+        elif lexema in reservados and (palavra[i+1] in espacos or palavra[i+1] in simbolos):
             tokens.append(reservados.index(lexema))
             lines.append(currentLine)
             lexemas.append(lexema)
             lexema = ''
 
         elif len(lexema) > 20:
-            print(f'Erro: Identificador não pode ter mais de 20 caracteres. Linha: {currentLine}')
+            catchError = f'Erro: Identificador não pode ter mais de 20 caracteres. Linha: {currentLine}'
             break
 
         elif palavra[i+1] in espacos or palavra[i+1] in simbolos:
@@ -143,8 +140,12 @@ for i in range(len(palavra)):
             lexema = ''
 
     elif palavra[i] in simbolos:
+
         if lexema:
-            if lexema in reservados:
+            if charLimiter or strLimiter or literalLimiter:
+                lexema = lexema + palavra[i]
+                continue
+            elif lexema in reservados:
                 tokens.append(reservados.index(lexema))
             else:
                 tokens.append(16)
@@ -159,7 +160,10 @@ for i in range(len(palavra)):
 
     elif palavra[i] in espacos:
         if lexema:
-            if lexema in reservados:
+            if charLimiter or strLimiter or literalLimiter:
+                lexema = lexema + palavra[i]
+                continue
+            elif lexema in reservados:
                 tokens.append(reservados.index(lexema))
             else:
                 tokens.append(16)
@@ -169,5 +173,8 @@ for i in range(len(palavra)):
 
 for i in range(0,len(tokens)):
     print('Token: '+str(tokens[i]) + ' - Lexema: '+str(lexemas[i]) + ' - Linha: ' +str(lines[i]))
+
+if (catchError != ''):
+    print(catchError)
 
 tokens = np.array(tokens)
