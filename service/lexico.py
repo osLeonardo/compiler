@@ -1,6 +1,6 @@
 import numpy as np
 
-with open('exemplo01.txt', 'r') as arquivo:
+with open('/data/content/01.txt', 'r') as arquivo:
     palavra = arquivo.read()
 
 tokens = []
@@ -13,6 +13,7 @@ reservados = ['write', 'while', 'until', 'to', 'then', 'string', 'repeat', 'real
               'const', 'char', 'chamaprocedure', 'begin', 'array', 'and']
 
 lexema = ''
+catchError = ''
 currentLine = 1
 lineComment = False
 blockComment = False
@@ -21,7 +22,6 @@ charLimiter = False
 strLimiter = False
 numLimiter = False
 
-catchError = ''
 
 for i in range(len(palavra)):
     if lineComment or blockComment:
