@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 14 13:33:12 2022
-
-@author: marlonoliveira
-"""
 import numpy as np
 
 #entrada, geralmente vem de um arquivo texto
@@ -21,7 +14,7 @@ print(tokens) # [2, 11, 39, 15, 40, 20, 38]
 tokens = np.array(tokens)
 
 #gramatica
-producoes = [[  2, 11, 39, 52, 53, 54, 38 ]] #P1
+producoes = [[ 2, 11, 39, 52, 53, 54, 38 ]] #P1
 producoes = np.append(producoes, [[ 0, 0, 0, 0, 0, 0, 0]], axis = 0); #P2
 producoes = np.append(producoes, [[ 17, 0, 0, 0, 0, 0, 0]], axis = 0); #P3
 producoes = np.append(producoes, [[ 15, 65, 40, 66, 20 , 0, 0]], axis = 0); #P4 
@@ -79,5 +72,3 @@ while X != 47 : #$
                 else:
                     print('Error')
                     break
-        
-        

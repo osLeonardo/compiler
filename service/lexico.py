@@ -1,9 +1,9 @@
 import numpy as np
 import os
 
-def lexico():
+def lexico(file):
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(base_dir, '../data/content/01.txt')
+    file_path = os.path.join(base_dir, file)
 
     with open(file_path, 'r') as arquivo:
         palavra = arquivo.read()
@@ -182,3 +182,5 @@ def lexico():
         print(catchError)
 
     tokens = np.array(tokens)
+    
+    return tokens
