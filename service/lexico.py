@@ -1,6 +1,10 @@
 import numpy as np
+import os
 
-with open('/data/content/01.txt', 'r') as arquivo:
+base_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(base_dir, '../data/content/01.txt')
+
+with open(file_path, 'r') as arquivo:
     palavra = arquivo.read()
 
 tokens = []
@@ -21,7 +25,6 @@ literalLimiter = False
 charLimiter = False
 strLimiter = False
 numLimiter = False
-
 
 for i in range(len(palavra)):
     if lineComment or blockComment:
