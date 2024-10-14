@@ -1,74 +1,61 @@
 import numpy as np
 
-#entrada, geralmente vem de um arquivo texto
-#palavra = 'void main { inicio ; fim }'
+def sintatico(token_array):
+    # Variável para armazenar o array de tokens (que irá alimentar o sintático)
+    tokens = np.array(token_array)
 
-#variavel para armazenar o lexema 
-#lexema = ''
+    # Gramática
+    producoes = [[9, 16, 42, 54, 46]]  # P0: <PROGRAMA> ::= "program" "identificador" ";" <BLOCO> "."
+    producoes = np.append(producoes, [[55, 56, 57, 58]], axis=0)  # P1: <BLOCO> ::= <DCLPROC> <DCLCONST> <DCLVAR> <CORPO>
+    producoes = np.append(producoes, [[23, 16, 31, 59, 42, 60]], axis=0)  # P2: <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
+    producoes = np.append(producoes, [[17]], axis=0)  # P3: <DCLCONST> ::= î (epsilon)
+    producoes = np.append(producoes, [[16, 31, 59, 42, 60]], axis=0)  # P4: <LDCONST> ::= "identificador" "=" <TIPO> ";" <LDCONST>
+    producoes = np.append(producoes, [[17]], axis=0)  # P5: <LDCONST> ::= î (epsilon)
 
-#variavel para armazenar a lista de tokes (que ira alimentar o sintatico)
-tokens = [2, 11, 39, 15, 40, 20, 38]
+    tabParsing = np.zeros((82, 50))
 
-        
-print(tokens) # [2, 11, 39, 15, 40, 20, 38]
-tokens = np.array(tokens)
+    # Exemplo de preenchimento da tabela de parsing
+    tabParsing[53][9] = 1  # Estado <PROGRAMA>, token "program" -> Produção 0
+    tabParsing[54][23] = 2  # Estado <BLOCO>, token "const" -> Produção 2
+    # Continue preenchendo a tabela conforme necessário
 
-#gramatica
-producoes = [[ 2, 11, 39, 52, 53, 54, 38 ]] #P1
-producoes = np.append(producoes, [[ 0, 0, 0, 0, 0, 0, 0]], axis = 0); #P2
-producoes = np.append(producoes, [[ 17, 0, 0, 0, 0, 0, 0]], axis = 0); #P3
-producoes = np.append(producoes, [[ 15, 65, 40, 66, 20 , 0, 0]], axis = 0); #P4 
-producoes
+    pilha = [51]  # $
 
+    pilha = np.hstack([producoes[0][:], pilha])
 
-tabParsing = np.zeros((82, 50))
+    print(pilha)
 
-tabParsing[51][2] = 1
-tabParsing[52][15] = 3
-tabParsing[53][15] = 3 # pela tab de parsing seria 19, simplificando para 3 pq eh igual
-tabParsing[54][15] = 4 # pela tab de parsing seria 31, simplificando para 4
-tabParsing[65][40] = 3 # pela tab de parsing seria 38, simplificando para 3 pq eh igual
-tabParsing[66][20] = 3 # pela tab de parsing seria 32, simplificando para 3 pq eh igual
+    X = pilha[0]
+    a = tokens[0]
 
-pilha = [47] #$
-
-pilha = np.hstack([producoes[0][:], pilha])
-
-print(pilha)
-
-
-X = pilha[0]
-a = tokens[0]
-
-while X != 47 : #$
-    print(X)
-    print(a)
-    print(pilha) #obrigatorio mostrar a pilha a cada iteracao
-    if X == 17: # vazio
-        pilha = np.delete(pilha,[0])
-        X = pilha[0]
-    else:
-        if X <= 50: # x é terminal
-            if X == a:
-                pilha = np.delete(pilha,[0])
-                tokens = np.delete(tokens,[0])
-                X = pilha[0]
-                if tokens.size != 0:
-                    a = tokens[0]
-            else:
-                print('Error')
-                break
-        else: # nao terminal
-            topo = np.hstack([producoes[int(tabParsing[X][a])-1][:], pilha])
-            if topo[0] == 17: # vazio
-                X = topo[0]
-            else: # topo nao tem vazio
-                if topo[0] != 0:  
-                    pilha = np.delete(pilha,[0])
-                    pilha = np.hstack([producoes[int(tabParsing[X][a])-1][:], pilha]) #consulta tab parsinal e empilha a producao referente
-                    pilha = pilha[pilha != 0]
+    while X != 51:  # $
+        print(X)
+        print(a)
+        print(pilha)  # Obrigatório mostrar a pilha a cada iteração
+        if X == 17:  # Vazio
+            pilha = np.delete(pilha, [0])
+            X = pilha[0]
+        else:
+            if X <= 52:  # X é terminal
+                if X == a:
+                    pilha = np.delete(pilha, [0])
+                    tokens = np.delete(tokens, [0])
                     X = pilha[0]
-                    #print('aqui')
+                    if tokens.size != 0:
+                        a = tokens[0]
                 else:
                     print('Error')
                     break
+            else:  # Não terminal
+                topo = np.hstack([producoes[int(tabParsing[X][a]) - 1][:], pilha])
+                if topo[0] == 17:  # Vazio
+                    X = topo[0]
+                else:  # Topo não tem vazio
+                    if topo[0] != 0:
+                        pilha = np.delete(pilha, [0])
+                        pilha = np.hstack([producoes[int(tabParsing[X][a]) - 1][:], pilha])  # Consulta tab parsing e empilha a produção referente
+                        pilha = pilha[pilha != 0]
+                        X = pilha[0]
+                    else:
+                        print('Error')
+                        break

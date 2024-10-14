@@ -1,4 +1,4 @@
-from service import lexico
+from service import lexico, sintatico
 
 def menu():
   print("Selecione o arquivo a ser processado:")
@@ -21,5 +21,8 @@ def menu():
     exit()
 
 file_path = menu()
+
 tokens = lexico.lexico(file_path)
 print(tokens)
+
+sintatico.sintatico(tokens)
