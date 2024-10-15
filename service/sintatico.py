@@ -1,81 +1,80 @@
 import numpy as np
 
 def getProducoes():
-    # Definindo a gramática
-    producoes = [[9, 16, 42, 54, 46, -1]]  # P0: <PROGRAMA> ::= "program" "identificador" ";" <BLOCO> "."
-    producoes = np.append(producoes, [[55, 56, 57, 58, -1, -1]], axis=0)  # P1: <BLOCO> ::= <DCLPROC> <DCLCONST> <DCLVAR> <CORPO>
-    producoes = np.append(producoes, [[23, 16, 31, 59, 42, 60]], axis=0)  # P2: <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P3: <DCLCONST> ::= î (epsilon)
-    producoes = np.append(producoes, [[16, 31, 59, 42, 60, -1]], axis=0)  # P4: <LDCONST> ::= "identificador" "=" <TIPO> ";" <LDCONST>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P5: <LDCONST> ::= î (epsilon)
-    producoes = np.append(producoes, [[22, 61, 43, 59, 42, 62]], axis=0)  # P6: <DCLVAR> ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P7: <DCLVAR> ::= î (epsilon)
-    producoes = np.append(producoes, [[16, 63, -1, -1, -1, -1]], axis=0)  # P8: <LID> ::= "identificador" <REPIDENT>
-    producoes = np.append(producoes, [[47, 16, 63, -1, -1, -1]], axis=0)  # P9: <REPIDENT> ::= "," "identificador" <REPIDENT>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P10: <REPIDENT> ::= î (epsilon)
-    producoes = np.append(producoes, [[61, 43, 59, 42, 62, -1]], axis=0)  # P11: <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P12: <LDVAR> ::= î (epsilon)
-    producoes = np.append(producoes, [[27, 41, 37, 45, 41, 37]], axis=0)  # P13: <TIPO> ::= "array" "[" "numinteiro" ".." "numinteiro" "]" "of" <TIPOARRAY>
-    producoes = np.append(producoes, [[18, -1, -1, -1, -1, -1]], axis=0)  # P14: <TIPOARRAY> ::= "integer"
-    producoes = np.append(producoes, [[24, -1, -1, -1, -1, -1]], axis=0)  # P15: <TIPOARRAY> ::= "char"
-    producoes = np.append(producoes, [[5, -1, -1, -1, -1, -1]], axis=0)  # P16: <TIPOARRAY> ::= "string"
-    producoes = np.append(producoes, [[7, -1, -1, -1, -1, -1]], axis=0)  # P17: <TIPOARRAY> ::= "real"
-    producoes = np.append(producoes, [[18, -1, -1, -1, -1, -1]], axis=0)  # P18: <TIPO> ::= "integer"
-    producoes = np.append(producoes, [[24, -1, -1, -1, -1, -1]], axis=0)  # P19: <TIPO> ::= "char"
-    producoes = np.append(producoes, [[5, -1, -1, -1, -1, -1]], axis=0)  # P20: <TIPO> ::= "string"
-    producoes = np.append(producoes, [[7, -1, -1, -1, -1, -1]], axis=0)  # P21: <TIPO> ::= "real"
-    producoes = np.append(producoes, [[10, 16, 65, 57, 58, 42]], axis=0)  # P22: <DCLPROC> ::= "procedure" "identificador" <DEFPAR> <DCLVAR> <CORPO> ";" <DCLPROC>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P23: <DCLPROC> ::= î (epsilon)
-    producoes = np.append(producoes, [[50, 61, 43, 59, 42, 62]], axis=0)  # P24: <DEFPAR> ::= "(" <LID> ":" <TIPO> ";" <LDVAR> ")"
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P25: <DEFPAR> ::= î (epsilon)
-    producoes = np.append(producoes, [[26, 66, 42, 67, 20, -1]], axis=0)  # P26: <CORPO> ::= "begin" <COMANDO> ";" <REPCOMANDO> "end"
-    producoes = np.append(producoes, [[66, 42, 67, -1, -1, -1]], axis=0)  # P27: <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P28: <REPCOMANDO> ::= î (epsilon)
-    producoes = np.append(producoes, [[15, 41, 68, 4, 26, 66]], axis=0)  # P29: <COMANDO> ::= "if" "[" <EXPRESSAO> "]" "then" "begin" <COMANDO> "end" <ELSEPARTE>
-    producoes = np.append(producoes, [[1, 41, 68, 21, 26, 66]], axis=0)  # P30: <COMANDO> ::= "while" "[" <EXPRESSAO> "]" "do" "begin" <COMANDO> "end"
-    producoes = np.append(producoes, [[6, 66, 2, 41, 68, 20]], axis=0)  # P31: <COMANDO> ::= "repeat" <COMANDO> "until" "[" <EXPRESSAO> "]"
-    producoes = np.append(producoes, [[8, 50, 70, 49, -1, -1]], axis=0)  # P32: <COMANDO> ::= "read" "(" <VARIAVEL> ")"
-    producoes = np.append(producoes, [[25, 16, 72, -1, -1, -1]], axis=0)  # P33: <COMANDO> ::= "chamaprocedure" "identificador" <PARAMETROS>
-    producoes = np.append(producoes, [[50, 73, 74, 49, -1, -1]], axis=0)  # P34: <COMANDO> ::= "write" "(" <ITEMSAIDA> <REPITEM> ")"
-    producoes = np.append(producoes, [[18, 41, 68, 3, 41, 68]], axis=0)  # P35: <COMANDO> ::= "for" "[" "identificador" "=" <EXPRESSAO> "]" "to" "[" <EXPRESSAO> "]" "do" "begin" <COMANDO> "end"
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P36: <COMANDO> ::= î (epsilon)
-    producoes = np.append(producoes, [[50, 61, 49, -1, -1, -1]], axis=0)  # P37: <PARAMETROS> ::= "(" <LID> ")"
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P38: <PARAMETROS> ::= î (epsilon)
-    producoes = np.append(producoes, [[13, -1, -1, -1, -1, -1]], axis=0)  # P39: <ITEMSAIDA> ::= "literal"
-    producoes = np.append(producoes, [[68, -1, -1, -1, -1, -1]], axis=0)  # P40: <ITEMSAIDA> ::= <EXPRESSAO>
-    producoes = np.append(producoes, [[47, 73, 74, -1, -1, -1]], axis=0)  # P41: <REPITEM> ::= "," <ITEMSAIDA> <REPITEM>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P42: <REPITEM> ::= î (epsilon)
-    producoes = np.append(producoes, [[75, 76, 77, -1, -1, -1]], axis=0)  # P43: <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
-    producoes = np.append(producoes, [[78, 79, -1, -1, -1, -1]], axis=0)  # P44: <TERMO> ::= <FATOR> <REPTERMO>
-    producoes = np.append(producoes, [[37, -1, -1, -1, -1, -1]], axis=0)  # P45: <FATOR> ::= "numinteiro"
-    producoes = np.append(producoes, [[16, -1, -1, -1, -1, -1]], axis=0)  # P46: <FATOR> ::= "identificador"
-    producoes = np.append(producoes, [[38, -1, -1, -1, -1, -1]], axis=0)  # P47: <FATOR> ::= "nomestring"
-    producoes = np.append(producoes, [[39, -1, -1, -1, -1, -1]], axis=0)  # P48: <FATOR> ::= "nomechar"
-    producoes = np.append(producoes, [[36, -1, -1, -1, -1, -1]], axis=0)  # P49: <FATOR> ::= "numreal"
-    producoes = np.append(producoes, [[50, 68, 49, -1, -1, -1]], axis=0)  # P50: <FATOR> ::= "(" <EXPRESSAO> ")"
-    producoes = np.append(producoes, [[31, 80, -1, -1, -1, -1]], axis=0)  # P51: <REPEXPSIMP> ::= "=" <EXPSIMP>
-    producoes = np.append(producoes, [[33, 80, -1, -1, -1, -1]], axis=0)  # P52: <REPEXPSIMP> ::= "<>" <EXPSIMP>
-    producoes = np.append(producoes, [[30, 80, -1, -1, -1, -1]], axis=0)  # P53: <REPEXPSIMP> ::= ">" <EXPSIMP>
-    producoes = np.append(producoes, [[29, 80, -1, -1, -1, -1]], axis=0)  # P54: <REPEXPSIMP> ::= ">=" <EXPSIMP>
-    producoes = np.append(producoes, [[34, 80, -1, -1, -1, -1]], axis=0)  # P55: <REPEXPSIMP> ::= "<=" <EXPSIMP>
-    producoes = np.append(producoes, [[32, 80, -1, -1, -1, -1]], axis=0)  # P56: <REPEXPSIMP> ::= "<" <EXPSIMP>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P57: <REPEXPSIMP> ::= î (epsilon)
-    producoes = np.append(producoes, [[35, 75, 76, -1, -1, -1]], axis=0)  # P58: <EXPSIMP> ::= "+" <TERMO> <REPEXP>
-    producoes = np.append(producoes, [[52, 75, 76, -1, -1, -1]], axis=0)  # P59: <EXPSIMP> ::= "-" <TERMO> <REPEXP>
-    producoes = np.append(producoes, [[75, 76, -1, -1, -1, -1]], axis=0)  # P60: <EXPSIMP> ::= <TERMO> <REPEXP>
-    producoes = np.append(producoes, [[35, 75, 76, -1, -1, -1]], axis=0)  # P61: <REPEXP> ::= "+" <TERMO> <REPEXP>
-    producoes = np.append(producoes, [[52, 75, 76, -1, -1, -1]], axis=0)  # P62: <REPEXP> ::= "-" <TERMO> <REPEXP>
-    producoes = np.append(producoes, [[11, 75, 76, -1, -1, -1]], axis=0)  # P63: <REPEXP> ::= "or" <TERMO> <REPEXP>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P64: <REPEXP> ::= î (epsilon)
-    producoes = np.append(producoes, [[48, 78, 79, -1, -1, -1]], axis=0)  # P65: <REPTERMO> ::= "*" <FATOR> <REPTERMO>
-    producoes = np.append(producoes, [[44, 78, 79, -1, -1, -1]], axis=0)  # P66: <REPTERMO> ::= "/" <FATOR> <REPTERMO>
-    producoes = np.append(producoes, [[28, 78, 79, -1, -1, -1]], axis=0)  # P67: <REPTERMO> ::= "and" <FATOR> <REPTERMO>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P68: <REPTERMO> ::= î (epsilon)
-    producoes = np.append(producoes, [[20, 26, 66, 20, -1, -1]], axis=0)  # P69: <ELSEPARTE> ::= "else" "begin" <COMANDO> "end"
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P70: <ELSEPARTE> ::= î (epsilon)
-    producoes = np.append(producoes, [[16, 71, -1, -1, -1, -1]], axis=0)  # P71: <VARIAVEL> ::= "identificador" <REPVARIAVEL>
-    producoes = np.append(producoes, [[47, 16, 71, -1, -1, -1]], axis=0)  # P72: <REPVARIAVEL> ::= "," "identificador" <REPVARIAVEL>
-    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1]], axis=0)  # P73: <REPVARIAVEL> ::= î (epsilon)
+    producoes = [[9, 16, 42, 54, 46, -1, -1, -1, -1, -1, -1, -1, -1, -1]]                                   # P0:  <PROGRAMA>       ::= "program" "identificador" ";" <BLOCO> "."
+    producoes = np.append(producoes, [[55, 56, 57, 58, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P1:  <BLOCO>          ::= <DCLPROC> <DCLCONST> <DCLVAR> <CORPO>
+    producoes = np.append(producoes, [[23, 16, 31, 59, 42, 60, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P2:  <DCLCONST>       ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P3:  <DCLCONST>       ::= î
+    producoes = np.append(producoes, [[16, 31, 59, 42, 60, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P4:  <LDCONST>        ::= "identificador" "=" <TIPO> ";" <LDCONST>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P5:  <LDCONST>        ::= î
+    producoes = np.append(producoes, [[22, 61, 43, 59, 42, 62, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P6:  <DCLVAR>         ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P7:  <DCLVAR>         ::= î
+    producoes = np.append(producoes, [[16, 63, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P8:  <LID>            ::= "identificador" <REPIDENT>
+    producoes = np.append(producoes, [[47, 16, 63, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P9:  <REPIDENT>       ::= "," "identificador" <REPIDENT>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P10: <REPIDENT>       ::= î
+    producoes = np.append(producoes, [[61, 43, 59, 42, 62, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P11: <LDVAR>          ::= <LID> ":" <TIPO> ";" <LDVAR>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P12: <LDVAR>          ::= î
+    producoes = np.append(producoes, [[27, 41, 37, 45, 37, 40, 12, 64, -1, -1, -1, -1, -1, -1]], axis=0)    # P13: <TIPO>           ::= "array" "[" "numinteiro" ".." "numinteiro" "]" "of" <TIPOARRAY>
+    producoes = np.append(producoes, [[14, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P14: <TIPOARRAY>      ::= "integer"
+    producoes = np.append(producoes, [[24, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P15: <TIPOARRAY>      ::= "char"
+    producoes = np.append(producoes, [[5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)     # P16: <TIPOARRAY>      ::= "string"
+    producoes = np.append(producoes, [[7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)     # P17: <TIPOARRAY>      ::= "real"
+    producoes = np.append(producoes, [[14, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P18: <TIPO>           ::= "integer"
+    producoes = np.append(producoes, [[24, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P19: <TIPO>           ::= "char"
+    producoes = np.append(producoes, [[5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)     # P20: <TIPO>           ::= "string"
+    producoes = np.append(producoes, [[7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)     # P21: <TIPO>           ::= "real"
+    producoes = np.append(producoes, [[10, 16, 65, 57, 58, 42, 55, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P22: <DCLPROC>        ::= "procedure" "identificador" <DEFPAR> <DCLVAR> <CORPO> ";" <DCLPROC>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P23: <DCLPROC>        ::= î
+    producoes = np.append(producoes, [[50, 61, 43, 59, 42, 62, 49, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P24: <DEFPAR>         ::= "(" <LID> ":" <TIPO> ";" <LDVAR> ")"
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P25: <DEFPAR>         ::= î
+    producoes = np.append(producoes, [[26, 66, 42, 67, 19, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P26: <CORPO>          ::= "begin" <COMANDO> ";" <REPCOMANDO> "end"
+    producoes = np.append(producoes, [[66, 42, 67, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P27: <REPCOMANDO>     ::= <COMANDO> ";" <REPCOMANDO>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P28: <REPCOMANDO>     ::= î
+    producoes = np.append(producoes, [[15, 41, 68, 40, 4, 26, 66, 19, 69, -1, -1, -1, -1, -1]], axis=0)     # P29: <COMANDO>        ::= "if" "[" <EXPRESSAO> "]" "then" "begin" <COMANDO> "end" <ELSEPARTE>
+    producoes = np.append(producoes, [[1, 41, 68, 40, 21, 26, 66, 19, -1, -1, -1, -1, -1, -1]], axis=0)     # P30: <COMANDO>        ::= "while" "[" <EXPRESSAO> "]" "do" "begin" <COMANDO> "end"
+    producoes = np.append(producoes, [[6, 66, 2, 41, 68, 40, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)      # P31: <COMANDO>        ::= "repeat" <COMANDO> "until" "[" <EXPRESSAO> "]"
+    producoes = np.append(producoes, [[8, 50, 70, 49, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)     # P32: <COMANDO>        ::= "read" "(" <VARIAVEL> ")"
+    producoes = np.append(producoes, [[25, 16, 72, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P33: <COMANDO>        ::= "chamaprocedure" "identificador" <PARAMETROS>
+    producoes = np.append(producoes, [[0, 50, 73, 74, 49, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)     # P34: <COMANDO>        ::= "write" "(" <ITEMSAIDA> <REPITEM> ")"
+    producoes = np.append(producoes, [[18, 41, 16, 31, 68, 40, 3, 41, 68, 40, 21, 26, 66, 19]], axis=0)     # P35: <COMANDO>        ::= "for" "[" "identificador" "=" <EXPRESSAO> "]" "to" "[" <EXPRESSAO> "]" "do" "begin" <COMANDO> "end"
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P36: <COMANDO>        ::= î
+    producoes = np.append(producoes, [[50, 61, 49, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P37: <PARAMETROS>     ::= "(" <LID> ")"
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P38: <PARAMETROS>     ::= î
+    producoes = np.append(producoes, [[13, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P39: <ITEMSAIDA>      ::= "literal"
+    producoes = np.append(producoes, [[68, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P40: <ITEMSAIDA>      ::= <EXPRESSAO>
+    producoes = np.append(producoes, [[47, 73, 74, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P41: <REPITEM>        ::= "," <ITEMSAIDA> <REPITEM>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P42: <REPITEM>        ::= î
+    producoes = np.append(producoes, [[75, 76, 77, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P43: <EXPRESSAO>      ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    producoes = np.append(producoes, [[78, 79, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P44: <TERMO>          ::= <FATOR> <REPTERMO>
+    producoes = np.append(producoes, [[37, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P45: <FATOR>          ::= "numinteiro"
+    producoes = np.append(producoes, [[16, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P46: <FATOR>          ::= "identificador"
+    producoes = np.append(producoes, [[38, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P47: <FATOR>          ::= "nomestring"
+    producoes = np.append(producoes, [[39, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P48: <FATOR>          ::= "nomechar"
+    producoes = np.append(producoes, [[36, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P49: <FATOR>          ::= "numreal"
+    producoes = np.append(producoes, [[50, 68, 49, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P50: <FATOR>          ::= "(" <EXPRESSAO> ")"
+    producoes = np.append(producoes, [[31, 80, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P51: <REPEXPSIMP>     ::= "=" <EXPSIMP>
+    producoes = np.append(producoes, [[34, 80, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P52: <REPEXPSIMP>     ::= "<" <EXPSIMP>
+    producoes = np.append(producoes, [[30, 80, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P53: <REPEXPSIMP>     ::= ">" <EXPSIMP>
+    producoes = np.append(producoes, [[29, 80, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P54: <REPEXPSIMP>     ::= ">=" <EXPSIMP>
+    producoes = np.append(producoes, [[33, 80, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P55: <REPEXPSIMP>     ::= "<=" <EXPSIMP>
+    producoes = np.append(producoes, [[32, 80, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P56: <REPEXPSIMP>     ::= "<>" <EXPSIMP>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P57: <REPEXPSIMP>     ::= î
+    producoes = np.append(producoes, [[35, 75, 76, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P58: <EXPSIMP>        ::= "+" <TERMO> <REPEXP>
+    producoes = np.append(producoes, [[52, 75, 76, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P59: <EXPSIMP>        ::= "-" <TERMO> <REPEXP>
+    producoes = np.append(producoes, [[75, 76, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P60: <EXPSIMP>        ::= <TERMO> <REPEXP>
+    producoes = np.append(producoes, [[35, 75, 76, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P61: <REPEXP>         ::= "+" <TERMO> <REPEXP>
+    producoes = np.append(producoes, [[52, 75, 76, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P62: <REPEXP>         ::= "-" <TERMO> <REPEXP>
+    producoes = np.append(producoes, [[11, 75, 76, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P63: <REPEXP>         ::= "or" <TERMO> <REPEXP>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P64: <REPEXP>         ::= î
+    producoes = np.append(producoes, [[48, 78, 79, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P65: <REPTERMO>       ::= "*" <FATOR> <REPTERMO>
+    producoes = np.append(producoes, [[44, 78, 79, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P66: <REPTERMO>       ::= "/" <FATOR> <REPTERMO>
+    producoes = np.append(producoes, [[28, 78, 79, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P67: <REPTERMO>       ::= "and" <FATOR> <REPTERMO>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P68: <REPTERMO>       ::= î
+    producoes = np.append(producoes, [[20, 26, 66, 19, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P69: <ELSEPARTE>      ::= "else" "begin" <COMANDO> "end"
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P70: <ELSEPARTE>      ::= î
+    producoes = np.append(producoes, [[16, 71, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P71: <VARIAVEL>       ::= "identificador" <REPVARIAVEL>
+    producoes = np.append(producoes, [[47, 16, 71, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P72: <REPVARIAVEL>    ::= "," "identificador" <REPVARIAVEL>
+    producoes = np.append(producoes, [[17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]], axis=0)    # P73: <REPVARIAVEL>    ::= î
     
     return producoes
 
