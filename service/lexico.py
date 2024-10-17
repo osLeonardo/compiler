@@ -12,7 +12,8 @@ def lexico(file):
     lexemas = []
     lines = []
     espacos = [' ', '\n', '\t', '\r']
-    simbolos = ['>=', '>', '=', '<>', '<=', '<', '+', ']', '[', ';', ':', '/', '..', '.', ',', '*', ')', '(', '-']
+    comparativos = ['>=', '>', '=', '<>', '<=', '<', '+']
+    simbolos = [']', '[', ';', ':', '/', '..', '.', ',', '*', ')', '(', '-']
     reservados = ['write', 'while', 'until', 'to', 'then', 'string', 'repeat', 'real', 'read', 'program',
                 'procedure', 'or', 'of', 'integer', 'if', 'for', 'end', 'else', 'do', 'declaravariaveis',
                 'const', 'char', 'chamaprocedure', 'begin', 'array', 'and']
@@ -157,7 +158,26 @@ def lexico(file):
                 lexemas.append(lexema)
                 lexema = ''
 
-            tokens.append(simbolos.index(palavra[i]) + 29)
+            tokens.append(simbolos.index(palavra[i]) + 40)
+            lines.append(currentLine)
+            lexemas.append(palavra[i])
+            lexema = ''
+        
+        elif palavra[i] in comparativos:
+
+            if lexema:
+                if charLimiter or strLimiter or literalLimiter:
+                    lexema = lexema + palavra[i]
+                    continue
+                elif lexema in reservados:
+                    tokens.append(reservados.index(lexema))
+                else:
+                    tokens.append(16)
+                lines.append(currentLine)
+                lexemas.append(lexema)
+                lexema = ''
+
+            tokens.append(comparativos.index(palavra[i]) + 29)
             lines.append(currentLine)
             lexemas.append(palavra[i])
             lexema = ''
