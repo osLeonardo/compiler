@@ -79,10 +79,8 @@ def getProducoes():
     return producoes
 
 def getTabParsing():
-    # Inicializando a tabela de parsing com zeros
     tabParsing = np.zeros((82, 82), dtype=int)
-
-    # Preenchendo a tabela com os valores apropriados
+    
     tabParsing[53][9] = 0    # <PROGRAMA> ::= "program" "identificador" ";" <BLOCO> "."
     tabParsing[54][55] = 1   # <BLOCO> ::= <DCLPROC> <DCLCONST> <DCLVAR> <CORPO>
     tabParsing[56][23] = 2   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
