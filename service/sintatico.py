@@ -133,15 +133,6 @@ def getTabParsing():
     tabParsing[55][42] = 27  # <CORPO> ::= î
     
     tabParsing[65][50] = 25  # <DEFPAR> ::= "(" <LID> ":" <TIPO> ";" <LDVAR> ")"
-   
-    tabParsing[67][15] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
-    tabParsing[67][1] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
-    tabParsing[67][6] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
-    tabParsing[67][8] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
-    tabParsing[67][25] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
-    tabParsing[67][0] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
-    tabParsing[67][18] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
-    tabParsing[67][42] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
     
     tabParsing[66][15] = 30  # <COMANDO> ::= "if" "[" <EXPRESSAO> "]" "then" "begin" <COMANDO> "end" <ELSEPARTE>
     tabParsing[66][1] = 31   # <COMANDO> ::= "while" "[" <EXPRESSAO> "]" "do" "begin" <COMANDO> "end"
@@ -153,6 +144,23 @@ def getTabParsing():
     tabParsing[66][2] = 37  # <COMANDO> ::= î
     tabParsing[66][19] = 37  # <COMANDO> ::= î
     tabParsing[66][42] = 37  # <COMANDO> ::= î
+   
+    tabParsing[67][15] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    tabParsing[67][1] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    tabParsing[67][6] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    tabParsing[67][8] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    tabParsing[67][25] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    tabParsing[67][0] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    tabParsing[67][18] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    tabParsing[67][42] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    tabParsing[67][19] = 29  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
+    
+    tabParsing[68][16] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    tabParsing[68][36] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    tabParsing[68][37] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>    
+    tabParsing[68][38] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    tabParsing[68][39] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    tabParsing[68][50] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
     
     tabParsing[72][50] = 38  # <PARAMETROS> ::= "(" <LID> ")"
     
@@ -176,17 +184,9 @@ def getTabParsing():
     tabParsing[73][16] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
     tabParsing[73][50] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
     tabParsing[73][52] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
-    tabParsing[73][47] = 42  # <COMANDO> ::= "write" "(" <ITEMSAIDA> <REPITEM> ")"
-    tabParsing[73][49] = 42  # <COMANDO> ::= "write" "(" <ITEMSAIDA> <REPITEM> ")"
     
-    tabParsing[74][47] = 43  # <REPITEM> ::= "," <ITEMSAIDA> <REPITEM>
-    
-    tabParsing[68][16] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
-    tabParsing[68][36] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
-    tabParsing[68][37] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>    
-    tabParsing[68][38] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
-    tabParsing[68][39] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
-    tabParsing[68][50] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    tabParsing[74][47] = 42  # <REPITEM> ::= "," <ITEMSAIDA> <REPITEM>
+    tabParsing[74][49] = 43  # <REPITEM> ::= "," <ITEMSAIDA> <REPITEM>
 
     tabParsing[75][16] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
     tabParsing[75][36] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
@@ -308,7 +308,7 @@ def sintatico(token_array):
         print("Pilha:", pilha)  # Obrigatório mostrar a pilha a cada iteração
         print("X:", X)
         print("a:", a)
-        if X == 17:  # Vazio
+        if X == 17 or X == -1:  # Vazio
             pilha = np.delete(pilha, [0])
             X = pilha[0]
         else:

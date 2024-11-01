@@ -1,6 +1,6 @@
 program exemploRepeat;
-declaravariaveis contador : integer;
 const receber = integer;
+declaravariaveis contador : integer;
 begin
   write(_Digite um valor de entrada: _);
   read(receber);

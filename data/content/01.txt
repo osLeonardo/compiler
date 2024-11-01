@@ -8,6 +8,6 @@ begin
     end 
     else begin 
       write(_Valor de i não é menor que : _, limite)
-    end;
+    end
   end;
 end.
