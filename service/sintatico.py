@@ -88,6 +88,12 @@ def getTabParsing():
     tabParsing[54][22] = 2   # <BLOCO> ::= <DCLPROC> <DCLCONST> <DCLVAR> <CORPO>
     tabParsing[54][26] = 2   # <BLOCO> ::= <DCLPROC> <DCLCONST> <DCLVAR> <CORPO>
     
+    tabParsing[55][10] = 23  # <DCLPROC> ::= "procedure" "identificador" <DEFPAR> <DCLVAR> <CORPO> ";" <DCLPROC>
+    tabParsing[55][23] = 3   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
+    tabParsing[55][22] = 7   # <DCLVAR> ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
+    tabParsing[55][26] = 27  # <CORPO> ::= "begin" <COMANDO> ";" <REPCOMANDO> "end"
+    tabParsing[55][42] = 27  # <CORPO> ::= î
+    
     tabParsing[56][23] = 3   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
     tabParsing[56][22] = 4   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
     tabParsing[56][26] = 4   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
@@ -99,38 +105,31 @@ def getTabParsing():
     
     tabParsing[58][26] = 27  # <CORPO> ::= "begin" <COMANDO> ";" <REPCOMANDO> "end"
     
+    tabParsing[59][14] = 19  # <TIPO> ::= "integer"
+    tabParsing[59][24] = 20  # <TIPO> ::= "char"
+    tabParsing[59][5] = 21   # <TIPO> ::= "string"
+    tabParsing[59][7] = 22   # <TIPO> ::= "real"
+    tabParsing[59][27] = 14  # <TIPO> ::= "array" "[" "numinteiro" ".." "numinteiro" "]" "of" <TIPOARRAY>
+    
     tabParsing[60][16] = 5   # <LDCONST> ::= "identificador" "=" <TIPO> ";" <LDCONST>
     tabParsing[60][22] = 6   # <LDCONST> ::= "identificador" "=" <TIPO> ";" <LDCONST>
     tabParsing[60][26] = 6   # <LDCONST> ::= "identificador" "=" <TIPO> ";" <LDCONST>
     
     tabParsing[61][16] = 9   # <LID> ::= "identificador" <REPIDENT>
     
-    tabParsing[63][43] = 11  # <REPIDENT> ::= "," "identificador" <REPIDENT>
-    tabParsing[63][49] = 11  # <REPIDENT> ::= "," "identificador" <REPIDENT>
-    tabParsing[63][47] = 10   # <LID> ::= "identificador" <REPIDENT>
-    
     tabParsing[62][16] = 12  # <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
     tabParsing[62][26] = 13  # <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
     tabParsing[62][42] = 13  # <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
     tabParsing[62][49] = 13  # <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
     
-    tabParsing[59][27] = 14  # <TIPO> ::= "array" "[" "numinteiro" ".." "numinteiro" "]" "of" <TIPOARRAY>
+    tabParsing[63][43] = 11  # <REPIDENT> ::= "," "identificador" <REPIDENT>
+    tabParsing[63][49] = 11  # <REPIDENT> ::= "," "identificador" <REPIDENT>
+    tabParsing[63][47] = 10   # <LID> ::= "identificador" <REPIDENT>
     
     tabParsing[64][14] = 15  # <TIPOARRAY> ::= "integer"
     tabParsing[64][24] = 16  # <TIPOARRAY> ::= "char"
     tabParsing[64][5] = 17   # <TIPOARRAY> ::= "string"
     tabParsing[64][7] = 18   # <TIPOARRAY> ::= "real"
-    
-    tabParsing[59][14] = 19  # <TIPO> ::= "integer"
-    tabParsing[59][24] = 20  # <TIPO> ::= "char"
-    tabParsing[59][5] = 21   # <TIPO> ::= "string"
-    tabParsing[59][7] = 22   # <TIPO> ::= "real"
-    
-    tabParsing[55][10] = 23  # <DCLPROC> ::= "procedure" "identificador" <DEFPAR> <DCLVAR> <CORPO> ";" <DCLPROC>
-    tabParsing[55][23] = 3   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
-    tabParsing[55][22] = 7   # <DCLVAR> ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
-    tabParsing[55][26] = 27  # <CORPO> ::= "begin" <COMANDO> ";" <REPCOMANDO> "end"
-    tabParsing[55][42] = 27  # <CORPO> ::= î
     
     tabParsing[65][50] = 25  # <DEFPAR> ::= "(" <LID> ":" <TIPO> ";" <LDVAR> ")"
     
@@ -161,6 +160,13 @@ def getTabParsing():
     tabParsing[68][38] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
     tabParsing[68][39] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
     tabParsing[68][50] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    
+    tabParsing[69][20] = 70  # <ELSEPARTE> ::= "else" "begin" <COMANDO> "end"
+    
+    tabParsing[70][16] = 72  # <VARIAVEL> ::= "identificador" <REPVARIAVEL>
+    
+    tabParsing[71][47] = 73  # <REPVARIAVEL> ::= "," "identificador" <REPVARIAVEL>
+    tabParsing[71][49] = 74  # <REPVARIAVEL> ::= "," "identificador" <REPVARIAVEL>
     
     tabParsing[72][50] = 38  # <PARAMETROS> ::= "(" <LID> ")"
     
@@ -278,12 +284,6 @@ def getTabParsing():
     tabParsing[80][38] = 61  # Estado <EXPSIMP>, token "nomestring" -> Produção 60
     tabParsing[80][39] = 61  # Estado <EXPSIMP>, token "nomechar" -> Produção 60
     tabParsing[80][50] = 61  # Estado <EXPSIMP>, token "(" -> Produção 60
-    
-    tabParsing[69][20] = 70  # <ELSEPARTE> ::= "else" "begin" <COMANDO> "end"
-    
-    tabParsing[70][16] = 72  # <VARIAVEL> ::= "identificador" <REPVARIAVEL>
-    
-    tabParsing[71][47] = 73  # <REPVARIAVEL> ::= "," "identificador" <REPVARIAVEL>
 
     return tabParsing
 

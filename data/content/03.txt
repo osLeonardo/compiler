@@ -11,5 +11,5 @@ begin
   else begin 
     write(_Contato é igual a 5_);
     chamaprocedure meuProcedure();
-  end;
+  end
 end.

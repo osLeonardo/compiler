@@ -4,9 +4,7 @@ declaravariaveis contador : integer;
 begin
   write(_Digite um valor de entrada: _);
   read(receber);
-  contador = 0;
   repeat
-    write(_Contador: _, contador);
-    contador = contador + 1;
-  until [contador = 5];
+    write(_Contador: _, contador)
+  until [contador = 5 ];
 end.
