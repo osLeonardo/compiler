@@ -12,9 +12,10 @@ def lexico(file):
     lexemas = []
     lines = []
     espacos = [' ', '\n', '\t', '\r']
-    simbolos = ['>=', '>', '=', '<>', '<=', '<', '+', ']', '[', ';', ':', '/', '..', '.', ',', '*', ')', '(', '-']
+    comparativos = ['>=', '>', '=', '<>', '<=', '<', '+']
+    simbolos = [']', '[', ';', ':', '/', '..', '.', ',', '*', ')', '(', '', '-']
     reservados = ['write', 'while', 'until', 'to', 'then', 'string', 'repeat', 'real', 'read', 'program',
-                'procedure', 'or', 'of', 'integer', 'if', 'for', 'end', 'else', 'do', 'declaravariaveis',
+                'procedure', 'or', 'of', '', 'integer', 'if', '', 'î', 'for', 'end', 'else', 'do', 'declaravariaveis',
                 'const', 'char', 'chamaprocedure', 'begin', 'array', 'and']
 
     lexema = ''
@@ -93,35 +94,26 @@ def lexico(file):
                 charLimiter = True
 
         elif palavra[i].isdigit():
-            if numLimiter:
-                if palavra[i+1].isdigit() or (palavra[i+1] == '.' and '.' not in lexema):
-                    lexema = lexema + palavra[i]
-                else:
-                    lexema = lexema + palavra[i]
-                    if '.' in lexema:
-                        parts = lexema.split('.')
-                        if len(parts[0]) > 5:
-                            catchError = f'Erro: Número real não pode conter mais de 5 dígitos antes do divisor. Linha: {currentLine}'
-                            break
-                        elif len(parts[1]) > 2:
-                            catchError = f'Erro: Número real não pode conter mais de 2 dígitos após do divisor. Linha: {currentLine}'
-                            break
-                        else:
-                            tokens.append(36)
-                            lines.append(currentLine)
-                    else:
-                        if len(lexema) > 5:
-                            catchError = f'Erro: Número inteiro não pode conter mais de 5 dígitos. Linha: {currentLine}'
-                            break
-                        else:
-                            tokens.append(37)
-                            lines.append(currentLine)
-                    lexemas.append(lexema)
-                    lexema = ''
-                    numLimiter = False
+            lexema = lexema + palavra[i]
+            numLimiter = True
+
+        elif palavra[i] == '.' and numLimiter:
+            lexema = lexema + palavra[i]
+
+        elif numLimiter:
+            parts = lexema.split('.')
+            if len(parts[0]) > 5:
+                catchError = f'Erro: Número real não pode conter mais de 5 dígitos antes do divisor. Linha: {currentLine}'
+                break
+            elif len(parts) > 1 and len(parts[1]) > 2:
+                catchError = f'Erro: Número real não pode conter mais de 2 dígitos após do divisor. Linha: {currentLine}'
+                break
             else:
-                lexema = lexema + palavra[i]
-                numLimiter = True
+                tokens.append(36 if '.' in lexema else 37)
+                lines.append(currentLine)
+                lexemas.append(lexema)
+                lexema = ''
+                numLimiter = False
 
         elif palavra[i].isalpha():
             lexema = lexema + palavra[i]
@@ -144,6 +136,31 @@ def lexico(file):
                 lexema = ''
 
         elif palavra[i] in simbolos:
+            if lexema:
+                if charLimiter or strLimiter or literalLimiter:
+                    lexema = lexema + palavra[i]
+                    continue
+                elif lexema in reservados:
+                    tokens.append(reservados.index(lexema))
+                else:
+                    tokens.append(16)
+                lines.append(currentLine)
+                lexemas.append(lexema)
+                lexema = ''
+            
+            if i + 1 < len(palavra) and palavra[i] == '.' and palavra[i+1] == '.':
+                tokens.append(45)
+                lines.append(currentLine)
+                lexemas.append(palavra[i] + palavra[i+1])
+                lexema = ''
+                i += 1
+            else:
+                tokens.append(simbolos.index(palavra[i]) + 40)
+                lines.append(currentLine)
+                lexemas.append(palavra[i])
+                lexema = ''
+        
+        elif palavra[i] in comparativos:
 
             if lexema:
                 if charLimiter or strLimiter or literalLimiter:
@@ -157,10 +174,26 @@ def lexico(file):
                 lexemas.append(lexema)
                 lexema = ''
 
-            tokens.append(simbolos.index(palavra[i]) + 29)
-            lines.append(currentLine)
-            lexemas.append(palavra[i])
-            lexema = ''
+            if (palavra[i] == '>' and palavra[i+1] == '='):
+                tokens.append(29)
+                lines.append(currentLine)
+                lexemas.append(palavra[i] + palavra[i+1])
+                lexema = ''
+            elif (palavra[i] == '<' and palavra[i+1] == '>'):
+                tokens.append(32)
+                lines.append(currentLine)
+                lexemas.append(palavra[i] + palavra[i+1])
+                lexema = ''
+            elif (palavra[i] == '<' and palavra[i+1] == '='):
+                tokens.append(33)
+                lines.append(currentLine)
+                lexemas.append(palavra[i] + palavra[i+1])
+                lexema = ''
+            else:
+                tokens.append(comparativos.index(palavra[i]) + 29)
+                lines.append(currentLine)
+                lexemas.append(palavra[i])
+                lexema = ''
 
         elif palavra[i] in espacos:
             if lexema:
