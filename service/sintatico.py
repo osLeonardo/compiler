@@ -89,20 +89,30 @@ def getTabParsing():
     tabParsing[54][26] = 2   # <BLOCO> ::= <DCLPROC> <DCLCONST> <DCLVAR> <CORPO>
     
     tabParsing[56][23] = 3   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
+    tabParsing[56][22] = 4   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
+    tabParsing[56][26] = 4   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
+    tabParsing[56][42] = 4   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
     
     tabParsing[57][22] = 7   # <DCLVAR> ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
+    tabParsing[57][26] = 8   # <DCLVAR> ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
+    tabParsing[57][42] = 8   # <DCLVAR> ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
     
     tabParsing[58][26] = 27  # <CORPO> ::= "begin" <COMANDO> ";" <REPCOMANDO> "end"
     
     tabParsing[60][16] = 5   # <LDCONST> ::= "identificador" "=" <TIPO> ";" <LDCONST>
+    tabParsing[60][22] = 6   # <LDCONST> ::= "identificador" "=" <TIPO> ";" <LDCONST>
+    tabParsing[60][26] = 6   # <LDCONST> ::= "identificador" "=" <TIPO> ";" <LDCONST>
     
     tabParsing[61][16] = 9   # <LID> ::= "identificador" <REPIDENT>
     
     tabParsing[63][43] = 11  # <REPIDENT> ::= "," "identificador" <REPIDENT>
     tabParsing[63][49] = 11  # <REPIDENT> ::= "," "identificador" <REPIDENT>
-    tabParsing[63][47] = 9   # <LID> ::= "identificador" <REPIDENT>
+    tabParsing[63][47] = 10   # <LID> ::= "identificador" <REPIDENT>
     
     tabParsing[62][16] = 12  # <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
+    tabParsing[62][26] = 13  # <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
+    tabParsing[62][42] = 13  # <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
+    tabParsing[62][49] = 13  # <LDVAR> ::= <LID> ":" <TIPO> ";" <LDVAR>
     
     tabParsing[59][27] = 14  # <TIPO> ::= "array" "[" "numinteiro" ".." "numinteiro" "]" "of" <TIPOARRAY>
     
@@ -120,6 +130,7 @@ def getTabParsing():
     tabParsing[55][23] = 3   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
     tabParsing[55][22] = 7   # <DCLVAR> ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
     tabParsing[55][26] = 27  # <CORPO> ::= "begin" <COMANDO> ";" <REPCOMANDO> "end"
+    tabParsing[55][42] = 27  # <CORPO> ::= î
     
     tabParsing[65][50] = 25  # <DEFPAR> ::= "(" <LID> ":" <TIPO> ";" <LDVAR> ")"
    
@@ -139,32 +150,49 @@ def getTabParsing():
     tabParsing[66][25] = 34  # <COMANDO> ::= "chamaprocedure" "identificador" <PARAMETROS>
     tabParsing[66][0] = 35   # <COMANDO> ::= "write" "(" <ITEMSAIDA> <REPITEM> ")"
     tabParsing[66][18] = 36  # <COMANDO> ::= "for" "[" "identificador" "=" <EXPRESSAO> "]" "to" "[" <EXPRESSAO> "]" "do" "begin" <COMANDO> "end"
-    tabParsing[66][17] = 37  # <COMANDO> ::= î
+    tabParsing[66][2] = 37  # <COMANDO> ::= î
+    tabParsing[66][19] = 37  # <COMANDO> ::= î
+    tabParsing[66][42] = 37  # <COMANDO> ::= î
     
     tabParsing[72][50] = 38  # <PARAMETROS> ::= "(" <LID> ")"
     
     tabParsing[73][13] = 40  # <ITEMSAIDA> ::= "literal"
-    tabParsing[73][37] = 40  # <ITEMSAIDA> ::= <EXPRESSAO>
-    tabParsing[73][16] = 40  # <ITEMSAIDA> ::= <EXPRESSAO>
-    tabParsing[73][38] = 40  # <ITEMSAIDA> ::= <EXPRESSAO>
-    tabParsing[73][39] = 40  # <ITEMSAIDA> ::= <EXPRESSAO>
-    tabParsing[73][36] = 40  # <ITEMSAIDA> ::= <EXPRESSAO>
-    tabParsing[73][50] = 40  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][11] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][28] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][29] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][30] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][31] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][32] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][33] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][34] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][35] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][35] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][36] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][37] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][38] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][39] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][44] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][48] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][16] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][50] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][52] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>
+    tabParsing[73][47] = 42  # <COMANDO> ::= "write" "(" <ITEMSAIDA> <REPITEM> ")"
+    tabParsing[73][49] = 42  # <COMANDO> ::= "write" "(" <ITEMSAIDA> <REPITEM> ")"
     
     tabParsing[74][47] = 43  # <REPITEM> ::= "," <ITEMSAIDA> <REPITEM>
     
-    tabParsing[68][37] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
     tabParsing[68][16] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    tabParsing[68][36] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
+    tabParsing[68][37] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>    
     tabParsing[68][38] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
     tabParsing[68][39] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
-    tabParsing[68][36] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
     tabParsing[68][50] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
 
-    tabParsing[75][37] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
     tabParsing[75][16] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
+    tabParsing[75][36] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
+    tabParsing[75][37] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
     tabParsing[75][38] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
     tabParsing[75][39] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
-    tabParsing[75][36] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
     tabParsing[75][50] = 45  # <TERMO> ::= <FATOR> <REPTERMO>
 
     tabParsing[78][37] = 46  # <FATOR> ::= "numinteiro"
@@ -180,6 +208,14 @@ def getTabParsing():
     tabParsing[77][29] = 55  # <REPEXPSIMP> ::= ">=" <EXPSIMP>
     tabParsing[77][33] = 56  # <REPEXPSIMP> ::= "<=" <EXPSIMP>
     tabParsing[77][32] = 57  # <REPEXPSIMP> ::= "<>" <EXPSIMP>
+    tabParsing[77][4] = 58  # Estado <REPEXPSIMP>, token "then" -> Produção 57
+    tabParsing[77][21] = 58  # Estado <REPEXPSIMP>, token "do" -> Produção 57
+    tabParsing[77][2] = 58  # Estado <REPEXPSIMP>, token "until" -> Produção 57
+    tabParsing[77][3] = 58  # Estado <REPEXPSIMP>, token "to" -> Produção 57
+    tabParsing[77][47] = 58  # Estado <REPEXPSIMP>, token "," -> Produção 57
+    tabParsing[77][49] = 58  # Estado <REPEXPSIMP>, token ")" -> Produção 57
+    tabParsing[77][40] = 58  # Estado <REPEXPSIMP>, token "]" -> Produção 57
+    tabParsing[77][41] = 58  # Estado <REPEXPSIMP>, token "[" -> Produção 57
     
     tabParsing[76][35] = 59  # <EXPSIMP> ::= "+" <TERMO> <REPEXP>
     tabParsing[76][52] = 60  # <EXPSIMP> ::= "-" <TERMO> <REPEXP>
@@ -193,10 +229,55 @@ def getTabParsing():
     tabParsing[76][35] = 62  # <REPEXP> ::= "+" <TERMO> <REPEXP>
     tabParsing[76][52] = 63  # <REPEXP> ::= "-" <TERMO> <REPEXP>
     tabParsing[76][11] = 64  # <REPEXP> ::= "or" <TERMO> <REPEXP>
-    
+    tabParsing[76][4] = 65  # Estado <REPEXP>, token "then" -> Produção 64
+    tabParsing[76][21] = 65  # Estado <REPEXP>, token "do" -> Produção 64
+    tabParsing[76][2] = 65  # Estado <REPEXP>, token "until" -> Produção 64
+    tabParsing[76][3] = 65  # Estado <REPEXP>, token "to" -> Produção 64
+    tabParsing[76][47] = 65  # Estado <REPEXP>, token "," -> Produção 64
+    tabParsing[76][49] = 65  # Estado <REPEXP>, token ")" -> Produção 64
+    tabParsing[76][40] = 65  # Estado <REPEXP>, token "]" -> Produção 64
+    tabParsing[76][41] = 65  # Estado <REPEXP>, token "[" -> Produção 64
+    tabParsing[76][29] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[76][30] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[76][31] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[76][32] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[76][33] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[76][34] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[76][35] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+
     tabParsing[79][48] = 66  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
-    tabParsing[79][44] = 67  # <REPTERMO> ::= "/" <FATOR> <REPTERMO>
-    tabParsing[79][28] = 68  # <REPTERMO> ::= "and" <FATOR> <REPTERMO>
+    tabParsing[79][44] = 67  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][28] = 68  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][16] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][29] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][30] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][31] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][32] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][33] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][34] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][35] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][36] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][37] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][38] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][39] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][50] = 69  # <REPTERMO> ::= "*" <FATOR> <REPTERMO>
+    tabParsing[79][4] = 69  # <REPTERMO>, token "then" -> Produção 68
+    tabParsing[79][21] = 69  # <REPTERMO>, token "do" -> Produção 68
+    tabParsing[79][2] = 69  # <REPTERMO>, token "until" -> Produção 68
+    tabParsing[79][3] = 69  # <REPTERMO>, token "to" -> Produção 68
+    tabParsing[79][47] = 69  # <REPTERMO>, token "," -> Produção 68
+    tabParsing[79][49] = 69  # <REPTERMO>, token ")" -> Produção 68
+    tabParsing[79][40] = 69  # <REPTERMO>, token "]" -> Produção 68
+    tabParsing[79][41] = 69  # <REPTERMO>, token "[" -> Produção 68
+    
+    tabParsing[80][35] = 59  # Estado <EXPSIMP>, token "+" -> Produção 58
+    tabParsing[80][52] = 60  # Estado <EXPSIMP>, token "-" -> Produção 59
+    tabParsing[80][16] = 61  # Estado <EXPSIMP>, token "identificador" -> Produção 60
+    tabParsing[80][37] = 61  # Estado <EXPSIMP>, token "numinteiro" -> Produção 60
+    tabParsing[80][36] = 61  # Estado <EXPSIMP>, token "numreal" -> Produção 60
+    tabParsing[80][38] = 61  # Estado <EXPSIMP>, token "nomestring" -> Produção 60
+    tabParsing[80][39] = 61  # Estado <EXPSIMP>, token "nomechar" -> Produção 60
+    tabParsing[80][50] = 61  # Estado <EXPSIMP>, token "(" -> Produção 60
     
     tabParsing[69][20] = 70  # <ELSEPARTE> ::= "else" "begin" <COMANDO> "end"
     

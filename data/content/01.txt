@@ -1,9 +1,8 @@
 program exemploFor;
-declaravariaveis i : integer;
 const limite = integer;
+declaravariaveis i : integer;
 begin
-  limite = 10
-  for [i = 1] to [limite] do begin
+  for [i = 1 ] to [limite] do begin
     if [i < limite] then begin 
       write(_Valor de i é igual a : _, limite) 
     end 
