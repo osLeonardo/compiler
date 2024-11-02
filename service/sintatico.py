@@ -92,7 +92,6 @@ def getTabParsing():
     tabParsing[55][23] = 3   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
     tabParsing[55][22] = 7   # <DCLVAR> ::= "declaravariaveis" <LID> ":" <TIPO> ";" <LDVAR>
     tabParsing[55][26] = 27  # <CORPO> ::= "begin" <COMANDO> ";" <REPCOMANDO> "end"
-    tabParsing[55][42] = 27  # <CORPO> ::= î
     
     tabParsing[56][23] = 3   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
     tabParsing[56][22] = 4   # <DCLCONST> ::= "const" "identificador" "=" <TIPO> ";" <LDCONST>
@@ -132,6 +131,8 @@ def getTabParsing():
     tabParsing[64][7] = 18   # <TIPOARRAY> ::= "real"
     
     tabParsing[65][50] = 25  # <DEFPAR> ::= "(" <LID> ":" <TIPO> ";" <LDVAR> ")"
+    tabParsing[65][22] = 26  # <DEFPAR> ::= "(" <LID> ":" <TIPO> ";" <LDVAR> ")"
+    tabParsing[65][26] = 26  # <DEFPAR> ::= "(" <LID> ":" <TIPO> ";" <LDVAR> ")"
     
     tabParsing[66][15] = 30  # <COMANDO> ::= "if" "[" <EXPRESSAO> "]" "then" "begin" <COMANDO> "end" <ELSEPARTE>
     tabParsing[66][1] = 31   # <COMANDO> ::= "while" "[" <EXPRESSAO> "]" "do" "begin" <COMANDO> "end"
@@ -162,6 +163,7 @@ def getTabParsing():
     tabParsing[68][50] = 44  # <EXPRESSAO> ::= <TERMO> <REPEXP> <REPEXPSIMP>
     
     tabParsing[69][20] = 70  # <ELSEPARTE> ::= "else" "begin" <COMANDO> "end"
+    tabParsing[69][42] = 70  # <ELSEPARTE> ::= "else" "begin" <COMANDO> "end"
     
     tabParsing[70][16] = 72  # <VARIAVEL> ::= "identificador" <REPVARIAVEL>
     
@@ -169,6 +171,7 @@ def getTabParsing():
     tabParsing[71][49] = 74  # <REPVARIAVEL> ::= "," "identificador" <REPVARIAVEL>
     
     tabParsing[72][50] = 38  # <PARAMETROS> ::= "(" <LID> ")"
+    tabParsing[72][42] = 39  # <PARAMETROS> ::= "(" <LID> ")"
     
     tabParsing[73][13] = 40  # <ITEMSAIDA> ::= "literal"
     tabParsing[73][11] = 41  # <ITEMSAIDA> ::= <EXPRESSAO>

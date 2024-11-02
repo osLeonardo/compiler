@@ -153,7 +153,9 @@ def lexico(file):
                 lines.append(currentLine)
                 lexemas.append(palavra[i] + palavra[i+1])
                 lexema = ''
-                i += 1
+                continue
+            elif i + 1 < len(palavra) and palavra[i] == '.' and palavra[i+1] != '.':
+                continue
             else:
                 tokens.append(simbolos.index(palavra[i]) + 40)
                 lines.append(currentLine)
