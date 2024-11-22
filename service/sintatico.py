@@ -372,23 +372,42 @@ def sintatico(token_array, lines, lexemas):
                 break
             tabela_simbolos.insert(name, 'procedure', type, current_scope)
             
-        elif X == 22:  # Token for'declaravariaveis'
-            name = lexemas[1]
-            type = lexemas[3]
-            result = check_duplicate_declaration(tabela_simbolos, name)
-            if result != "OK":
-                print(f'Semantic Error: {result} at line {current_line}')
-                break
-            tabela_simbolos.insert(name, 'declaravariaveis', type, current_scope)
+        elif X == 22:  # Token for 'declaravariaveis'
+            i = 1
+            while tokens[i] != 42:  # Token for ';'
+                if tokens[i] == 16:  # Token for 'identificador'
+                    name = lexemas[i]
+                    if tokens[i + 1] == 43:  # Token for ':'
+                        type = lexemas[i + 2]
+                        result = check_duplicate_declaration(tabela_simbolos, name)
+                        if result != "OK":
+                            print(f'Semantic Error: {result} at line {current_line}')
+                            break
+                        tabela_simbolos.insert(name, 'variable', type, current_scope)
+                        i += 3  # Skip 'identificador', ':', and 'type'
+                    elif tokens[i + 1] == 47:  # Token for ','
+                        type = lexemas[i + 3]
+                        result = check_duplicate_declaration(tabela_simbolos, name)
+                        if result != "OK":
+                            print(f'Semantic Error: {result} at line {current_line}')
+                            break
+                        tabela_simbolos.insert(name, 'variable', type, current_scope)
+                        i += 4  # Skip 'identificador', ':', 'array', and 'type'
+                else:
+                    i += 1
 
         elif X == 23:  # Token for 'const'
-            name = lexemas[1]
-            type = lexemas[3]
-            result = check_duplicate_declaration(tabela_simbolos, name)
-            if result != "OK":
-                print(f'Semantic Error: {result} at line {current_line}')
-                break
-            tabela_simbolos.insert(name, 'const', type, current_scope)
+            i = 1
+            while tokens[i] != 42:  # Token for ';'
+                if tokens[i] == 16:  # Token for 'identificador'
+                    name = lexemas[i]
+                    type = lexemas[i + 2]
+                    result = check_duplicate_declaration(tabela_simbolos, name)
+                    if result != "OK":
+                        print(f'Semantic Error: {result} at line {current_line}')
+                        break
+                    tabela_simbolos.insert(name, 'const', type, current_scope)
+                i += 1
 
         elif X == 16:  # Token for 'identificador'
             result = check_variable_declared(tabela_simbolos, current_lexema)
@@ -404,7 +423,7 @@ def sintatico(token_array, lines, lexemas):
                     print(f'Semantic Error: Cannot assign to constant {current_lexema} at line {current_line}')
                     break
 
-        elif X == 5 and X == 7 and X == 14 and X == 24 and X == 27: # Token for 'string', 'real', 'integer', 'char' or array
+        elif X == 5 and X == 7 and X == 14 and X == 24 and X == 27: # Token for 'string', 'real', 'integer', 'char' or 'array'
             var_name = lexemas[1]
             result = check_duplicate_declaration(tabela_simbolos, var_name)
             if result != "OK":
@@ -427,6 +446,16 @@ def sintatico(token_array, lines, lexemas):
             if result != "OK":
                 print(f'Semantic Error: {result} at line {current_line}')
                 break
+
+        # Check for multiple declarations in the same line
+        if X == 42 and tokens[1] == 16:  # Token for ';' and next token is 'identificador'
+            name = lexemas[1]
+            type = lexemas[3]
+            result = check_duplicate_declaration(tabela_simbolos, name)
+            if result != "OK":
+                print(f'Semantic Error: {result} at line {current_line}')
+                break
+            tabela_simbolos.insert(name, 'variable', type, current_scope)
 
         # Update current_lexema for the next iteration
         if len(lexemas) != 0:
