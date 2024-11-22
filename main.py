@@ -2,9 +2,9 @@ from service import lexico, sintatico
 
 def menu():
   print("Selecione o arquivo a ser processado:")
-  print("- 1. Exemplo 01.txt")
-  print("- 2. Exemplo 02.txt")
-  print("- 3. Exemplo 03.txt")  
+  print("- 1. Exemplo For")
+  print("- 2. Exemplo Repeat")
+  print("- 3. Exemplo While")  
   print("- 9. Tudo.txt")
   print("- 0. Sair")
   choice = input("> ")

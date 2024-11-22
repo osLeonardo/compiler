@@ -386,13 +386,21 @@ def sintatico(token_array, lines, lexemas):
                         tabela_simbolos.insert(name, 'variable', type, current_scope)
                         i += 3  # Skip 'identificador', ':', and 'type'
                     elif tokens[i + 1] == 47:  # Token for ','
-                        type = lexemas[i + 3]
-                        result = check_duplicate_declaration(tabela_simbolos, name)
+                        while tokens[i] == 47:  # Handle multiple identifiers
+                            name = lexemas[i - 1]
+                            result = check_duplicate_declaration(tabela_simbolos, name)
+                            if result != "OK":
+                                print(f'Semantic Error: {result} at line {current_line}')
+                                break
+                            tabela_simbolos.insert(name, 'variable', type, current_scope)
+                            i += 2  # Skip ',' and next 'identificador'
+                        type = lexemas[i + 1]
+                        result = check_duplicate_declaration(tabela_simbolos, lexemas[i])
                         if result != "OK":
                             print(f'Semantic Error: {result} at line {current_line}')
                             break
-                        tabela_simbolos.insert(name, 'variable', type, current_scope)
-                        i += 4  # Skip 'identificador', ':', 'array', and 'type'
+                        tabela_simbolos.insert(lexemas[i], 'variable', type, current_scope)
+                        i += 2  # Skip 'identificador' and 'type'
                 else:
                     i += 1
 
@@ -401,13 +409,32 @@ def sintatico(token_array, lines, lexemas):
             while tokens[i] != 42:  # Token for ';'
                 if tokens[i] == 16:  # Token for 'identificador'
                     name = lexemas[i]
-                    type = lexemas[i + 2]
-                    result = check_duplicate_declaration(tabela_simbolos, name)
-                    if result != "OK":
-                        print(f'Semantic Error: {result} at line {current_line}')
-                        break
-                    tabela_simbolos.insert(name, 'const', type, current_scope)
-                i += 1
+                    if tokens[i + 1] == 31:  # Token for '='
+                        type = lexemas[i + 2]
+                        result = check_duplicate_declaration(tabela_simbolos, name)
+                        if result != "OK":
+                            print(f'Semantic Error: {result} at line {current_line}')
+                            break
+                        tabela_simbolos.insert(name, 'const', type, current_scope)
+                        i += 3  # Skip 'identificador', '=', and 'type'
+                    elif tokens[i + 1] == 47:  # Token for ','
+                        while tokens[i] == 47:  # Handle multiple identifiers
+                            name = lexemas[i - 1]
+                            result = check_duplicate_declaration(tabela_simbolos, name)
+                            if result != "OK":
+                                print(f'Semantic Error: {result} at line {current_line}')
+                                break
+                            tabela_simbolos.insert(name, 'const', type, current_scope)
+                            i += 2  # Skip ',' and next 'identificador'
+                        type = lexemas[i + 1]
+                        result = check_duplicate_declaration(tabela_simbolos, lexemas[i])
+                        if result != "OK":
+                            print(f'Semantic Error: {result} at line {current_line}')
+                            break
+                        tabela_simbolos.insert(lexemas[i], 'const', type, current_scope)
+                        i += 2  # Skip 'identificador' and 'type'
+                else:
+                    i += 1
 
         elif X == 16:  # Token for 'identificador'
             result = check_variable_declared(tabela_simbolos, current_lexema)
