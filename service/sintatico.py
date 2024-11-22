@@ -293,7 +293,7 @@ def getTabParsing():
 
 def check_variable_declared(tabela_simbolos, var_name):
     result = tabela_simbolos.lookup(var_name)
-    if isinstance(result, str):  # Error message returned
+    if isinstance(result, str):
         return result
     return "OK"
 
@@ -313,7 +313,8 @@ def check_division_by_zero(divisor):
     return "OK"
 
 def check_duplicate_declaration(tabela_simbolos, var_name):
-    if tabela_simbolos.lookup(var_name) != f"Erro: variável '{var_name}' não foi declarada.":
+    result = tabela_simbolos.lookup(var_name)
+    if isinstance(result, dict):
         return f"Variável '{var_name}' já foi declarada."
     return "OK"
 
@@ -327,7 +328,6 @@ def sintatico(token_array, lines, lexemas):
     producoes = getProducoes()
     tabParsing = getTabParsing()
     tabela_simbolos = simbolos.TabelaSimbolos()
-    variable_scope = {}
     current_scope = 0
 
     pilha = [51]  # $
@@ -345,9 +345,14 @@ def sintatico(token_array, lines, lexemas):
         print("Pilha:", pilha)
         print("X:", X)
         print("a:", a)
+        
         if X == 17 or X == -1:  # Vazio
             pilha = np.delete(pilha, [0])
-            X = pilha[0]
+            if pilha.size != 0:
+                X = pilha[0]
+            else:
+                X = 51  # Fim da pilha
+            continue
 
         # Semantic actions
         elif X == 9:  # Token for 'program'
@@ -395,10 +400,11 @@ def sintatico(token_array, lines, lexemas):
                 print(f'Semantic Error: {symbol} at line {current_line}')
                 break
             if symbol['category'] == 'const' and tokens[1] == 31 and X != 23:  # Token for '=' and not in const declaration
-                print(f'Semantic Error: Cannot assign to constant {current_lexema} at line {current_line}')
-                break
+                if tokens[2] != 5 and tokens[2] != 7 and tokens[2] != 14 and tokens[2] != 24 and tokens[2] != 27: # Token for 'string', 'real', 'integer', 'char' or array
+                    print(f'Semantic Error: Cannot assign to constant {current_lexema} at line {current_line}')
+                    break
 
-        elif X == 59:  # Token for 'TIPO'
+        elif X == 5 and X == 7 and X == 14 and X == 24 and X == 27: # Token for 'string', 'real', 'integer', 'char' or array
             var_name = lexemas[1]
             result = check_duplicate_declaration(tabela_simbolos, var_name)
             if result != "OK":
