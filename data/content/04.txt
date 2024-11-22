@@ -1,0 +1,5 @@
+
+program duplicateDeclaration;
+declaravariaveis contador, contador : integer;
+begin
+end.

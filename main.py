@@ -4,7 +4,9 @@ def menu():
   print("Selecione o arquivo a ser processado:")
   print("- 1. Exemplo For")
   print("- 2. Exemplo Repeat")
-  print("- 3. Exemplo While")  
+  print("- 3. Exemplo While")
+  print("- 4. Exemplo Declaração de duplicadas")
+  print("- 5. Exemplo Identificador não declarado")
   print("- 9. Tudo.txt")
   print("- 0. Sair")
   choice = input("> ")
@@ -17,6 +19,10 @@ def menu():
     return '../data/content/02.txt'
   elif choice == '3':
     return '../data/content/03.txt'
+  elif choice == '4':
+    return '../data/content/04.txt'
+  elif choice == '5':
+    return '../data/content/05.txt'
   elif choice == '9':
     return '../data/content/tudo.txt'
   else:
