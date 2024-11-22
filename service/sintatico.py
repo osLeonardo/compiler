@@ -1,3 +1,4 @@
+from service import simbolos
 import numpy as np
 
 def getProducoes():
@@ -144,7 +145,7 @@ def getTabParsing():
     tabParsing[66][2] = 37  # <COMANDO> ::= î
     tabParsing[66][19] = 37  # <COMANDO> ::= î
     tabParsing[66][42] = 37  # <COMANDO> ::= î
-   
+
     tabParsing[67][15] = 28  # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
     tabParsing[67][1] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
     tabParsing[67][6] = 28   # <REPCOMANDO> ::= <COMANDO> ";" <REPCOMANDO>
@@ -290,55 +291,169 @@ def getTabParsing():
 
     return tabParsing
 
-def sintatico(token_array):
-    # Variável para armazenar o array de tokens (que irá alimentar o sintático)
-    tokens = np.array(token_array)
+def check_variable_declared(tabela_simbolos, var_name):
+    result = tabela_simbolos.lookup(var_name)
+    if isinstance(result, str):  # Error message returned
+        return result
+    return "OK"
 
-    # Obter produções e tabela de parsing
+def check_data_types(var1, var2, operation):
+    if operation == "+":
+        if isinstance(var1, (int, float)) and isinstance(var2, (int, float)):
+            return "OK"
+        elif isinstance(var1, str) and isinstance(var2, str):
+            return "OK"
+        else:
+            return "Tipos incompatíveis para soma."
+    return "OK"
+
+def check_division_by_zero(divisor):
+    if divisor == 0:
+        return "Divisão por zero."
+    return "OK"
+
+def check_duplicate_declaration(tabela_simbolos, var_name):
+    if tabela_simbolos.lookup(var_name) != f"Erro: variável '{var_name}' não foi declarada.":
+        return f"Variável '{var_name}' já foi declarada."
+    return "OK"
+
+def check_scope(variable_scope, var_name, current_scope):
+    if var_name not in variable_scope.get(current_scope, set()):
+        return f"Variável '{var_name}' fora do escopo."
+    return "OK"
+
+def sintatico(token_array, lines, lexemas):
+    tokens = np.array(token_array)
     producoes = getProducoes()
     tabParsing = getTabParsing()
+    tabela_simbolos = simbolos.TabelaSimbolos()
+    variable_scope = {}
+    current_scope = 0
 
     pilha = [51]  # $
-    pilha = np.hstack([producoes[0][:], pilha])  # Empilhar a primeira produção (P0: <PROGRAMA>)
+    pilha = np.hstack([producoes[0][:], pilha])
 
     print("Tokens iniciais:", tokens)
     print("Pilha inicial:", pilha)
 
     X = pilha[0]
     a = tokens[0]
+    current_line = lines[0]
+    current_lexema = lexemas[0]
 
     while X != 51:  # $
-        print("Pilha:", pilha)  # Obrigatório mostrar a pilha a cada iteração
+        print("Pilha:", pilha)
         print("X:", X)
         print("a:", a)
         if X == 17 or X == -1:  # Vazio
             pilha = np.delete(pilha, [0])
             X = pilha[0]
-        else:
-            if X <= 52:  # X é terminal
-                if X == a:
-                    pilha = np.delete(pilha, [0])
-                    tokens = np.delete(tokens, [0])
-                    if tokens.size != 0:
-                        a = tokens[0]
-                    else:
-                        a = 51  # Fim da entrada
-                    if pilha.size != 0:
-                        X = pilha[0]
-                    else:
-                        X = 51  # Fim da pilha
-                else:
-                    print('Error: Unexpected token', a)
+
+        # Semantic actions
+        elif X == 9:  # Token for 'program'
+            name = lexemas[1]
+            result = check_duplicate_declaration(tabela_simbolos, name)
+            if result != "OK":
+                print(f'Semantic Error: {result} at line {current_line}')
+                break
+            tabela_simbolos.insert(name, 'program', None, current_scope)
+
+        elif X == 10:  # Token for 'procedure'
+            name = lexemas[1]
+            type = lexemas[3]
+            result = check_duplicate_declaration(tabela_simbolos, name)
+            if result != "OK":
+                print(f'Semantic Error: {result} at line {current_line}')
+                break
+            tabela_simbolos.insert(name, 'procedure', type, current_scope)
+            
+        elif X == 22:  # Token for'declaravariaveis'
+            name = lexemas[1]
+            type = lexemas[3]
+            result = check_duplicate_declaration(tabela_simbolos, name)
+            if result != "OK":
+                print(f'Semantic Error: {result} at line {current_line}')
+                break
+            tabela_simbolos.insert(name, 'declaravariaveis', type, current_scope)
+
+        elif X == 23:  # Token for 'const'
+            name = lexemas[1]
+            type = lexemas[3]
+            result = check_duplicate_declaration(tabela_simbolos, name)
+            if result != "OK":
+                print(f'Semantic Error: {result} at line {current_line}')
+                break
+            tabela_simbolos.insert(name, 'const', type, current_scope)
+
+        elif X == 16:  # Token for 'identificador'
+            result = check_variable_declared(tabela_simbolos, current_lexema)
+            if result != "OK":
+                print(f'Semantic Error: {result} at line {current_line}')
+                break
+            symbol = tabela_simbolos.lookup(current_lexema)
+            if isinstance(symbol, str):  # Error message returned
+                print(f'Semantic Error: {symbol} at line {current_line}')
+                break
+            if symbol['category'] == 'const' and tokens[1] == 31 and X != 23:  # Token for '=' and not in const declaration
+                print(f'Semantic Error: Cannot assign to constant {current_lexema} at line {current_line}')
+                break
+
+        elif X == 59:  # Token for 'TIPO'
+            var_name = lexemas[1]
+            result = check_duplicate_declaration(tabela_simbolos, var_name)
+            if result != "OK":
+                print(f'Semantic Error: {result} at line {current_line}')
+                break
+            tabela_simbolos.insert(var_name, 'var', lexemas[3], current_scope)
+
+        elif X == 44:  # Token for 'TERMO'
+            if tokens[1] == 44:  # Token for '/'
+                result = check_division_by_zero(tokens[2])
+                if result != "OK":
+                    print(f'Semantic Error: {result} at line {current_line}')
                     break
-            else:  # X é não terminal
-                if tabParsing[X][a] != 0:
-                    producao = producoes[tabParsing[X][a] - 1]
-                    pilha = np.delete(pilha, [0])
-                    pilha = np.hstack([producao[producao != -1], pilha])
+
+        elif X == 68:  # Token for 'EXPRESSAO'
+            var1 = lexemas[1]
+            var2 = lexemas[3]
+            operation = lexemas[2]
+            result = check_data_types(var1, var2, operation)
+            if result != "OK":
+                print(f'Semantic Error: {result} at line {current_line}')
+                break
+
+        # Update current_lexema for the next iteration
+        if len(lexemas) != 0:
+            current_lexema = lexemas[0]
+
+        if X <= 52:  # X é terminal
+            if X == a:
+                pilha = np.delete(pilha, [0])
+                tokens = np.delete(tokens, [0])
+                lines = np.delete(lines, [0])
+                lexemas = np.delete(lexemas, [0])
+                if tokens.size != 0:
+                    a = tokens[0]
+                    current_line = lines[0]
+                    current_lexema = lexemas[0]
+                else:
+                    a = 51  # Fim da entrada
+                if pilha.size != 0:
                     X = pilha[0]
                 else:
-                    print('Error: No production found for', X, 'and', a)
-                    break
+                    X = 51  # Fim da pilha
+            else:
+                print(f'Error: Unexpected token {a} at line {current_line}')
+                break
+        else:  # X é não terminal
+            if tabParsing[X][a] != 0:
+                producao = producoes[tabParsing[X][a] - 1]
+                pilha = np.delete(pilha, [0])
+                pilha = np.hstack([producao[producao != -1], pilha])
+                X = pilha[0]
+            else:
+                print(f'Error: No production found for {X} and {a} at line {current_line}')
+                break
 
     if X == 51 and a == 51:
         print("Parsing completed successfully.")
