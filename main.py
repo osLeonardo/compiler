@@ -28,8 +28,8 @@ file_path = menu()
 
 print('\n')
 print('===== LÉXICO =====')
-tokens = lexico.lexico(file_path)
+tokens, lines, lexemas = lexico.lexico(file_path)
 
 print('\n')
 print('===== SINTÁTICO =====')
-sintatico.sintatico(tokens)
+sintatico.sintatico(tokens, lines, lexemas)

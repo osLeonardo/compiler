@@ -217,5 +217,6 @@ def lexico(file):
         print(catchError)
 
     tokens = np.array(tokens)
+    lines = np.array(lines)
     
-    return tokens
+    return tokens, lines, lexemas
