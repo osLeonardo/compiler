@@ -1,0 +1,6 @@
+
+program divideByZero;
+declaravariaveis a : integer;
+begin
+  write( a / 0 );
+end.

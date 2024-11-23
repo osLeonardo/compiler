@@ -7,6 +7,7 @@ def menu():
   print("- 3. Exemplo While")
   print("- 4. Exemplo Declaração de duplicadas")
   print("- 5. Exemplo Identificador não declarado")
+  print("- 6. Exemplo Divisão por zero")
   print("- 9. Tudo.txt")
   print("- 0. Sair")
   choice = input("> ")
@@ -23,6 +24,8 @@ def menu():
     return '../data/content/04.txt'
   elif choice == '5':
     return '../data/content/05.txt'
+  elif choice == '6':
+    return '../data/content/06.txt'
   elif choice == '9':
     return '../data/content/tudo.txt'
   else:

@@ -458,9 +458,10 @@ def sintatico(token_array, lines, lexemas):
                 break
             tabela_simbolos.insert(var_name, 'var', lexemas[3], current_scope)
 
-        elif X == 44:  # Token for 'TERMO'
-            if tokens[1] == 44:  # Token for '/'
-                result = check_division_by_zero(tokens[2])
+        elif X == 44:  # Token for '/'
+            if tokens[1] == 37:  # Token for 'numinteiro'
+                divisor = int(lexemas[1])
+                result = check_division_by_zero(divisor)
                 if result != "OK":
                     print(f'Semantic Error: {result} at line {current_line}')
                     break
