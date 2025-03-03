@@ -2,6 +2,10 @@
 
 This project is a simple compiler that processes a custom programming language. It includes lexical, syntactic, and semantic analysis components to parse and validate the source code.
 
+## Contributors
+- João Vitor Alves
+- Leonardo Spilere
+
 ## Project Structure
 
 - `main.py`: The main entry point of the compiler.
